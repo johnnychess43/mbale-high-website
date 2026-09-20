@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}
+Gallery | {{ school.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <p class="eyebrow">OUR GALLERY</p>
+
+    <h1>School Life</h1>
+
+    <p>
+        Explore moments, facilities and experiences
+        from Friends School – Mbale.
+    </p>
+
+</section>
+
+
+<section class="section">
+
+    <div class="gallery-grid">
+
+        <!-- SCHOOL CAMPUS -->
+        <div class="gallery-item photo-item">
+
+            <img
+                src="{{ url_for('static', filename='images/school.jpg') }}"
+                alt="Friends School Mbale">
+
+            <div class="gallery-caption">
+
+                <span>🏫</span>
+
+                <h3>School Campus</h3>
+
+                <p>
+                    Friends School – Mbale
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECOND PHOTO -->
+        <div class="gallery-item photo-item">
+
+            <img
+                src="{{ url_for('static', filename='images/OIP.webp') }}"
+                alt="Friends School Mbale">
+
+            <div class="gallery-caption">
+
+                <span>📚</span>
+
+                <h3>School Life</h3>
+
+                <p>
+                    Learning and community
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPORTS -->
+        <div class="gallery-item gallery-placeholder">
+
+            <span>⚽</span>
+
+            <h3>Sports</h3>
+
+            <p>
+                Sports and co-curricular activities
+            </p>
+
+        </div>
+
+
+        <!-- ARTS -->
+        <div class="gallery-item gallery-placeholder">
+
+            <span>🎭</span>
+
+            <h3>Arts & Talent</h3>
+
+            <p>
+                Creativity and talent development
+            </p>
+
+        </div>
+
+
+        <!-- STUDENTS -->
+        <div class="gallery-item gallery-placeholder">
+
+            <span>👨‍🎓</span>
+
+            <h3>Students</h3>
+
+            <p>
+                Student life and school community
+            </p>
+
+        </div>
+
+
+        <!-- ACHIEVEMENTS -->
+        <div class="gallery-item gallery-placeholder">
+
+            <span>🏆</span>
+
+            <h3>Achievements</h3>
+
+            <p>
+                Celebrating excellence
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="gallery-note">
+
+        <h3>📸 More Photos Coming Soon</h3>
+
+        <p>
+            You can add permitted school photographs to:
+        </p>
+
+        <code>
+            static/images/
+        </code>
+
+        <p>
+            New photographs can then be added to this
+            gallery as the website grows.
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

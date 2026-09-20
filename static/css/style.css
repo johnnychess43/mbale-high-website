@@ -1,0 +1,2738 @@
+/* =========================================================
+   FRIENDS SCHOOL MBALE
+   MAIN WEBSITE STYLES
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 72px;
+
+    background: rgba(5, 25, 55, 0.96);
+    backdrop-filter: blur(12px);
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 6%;
+
+    z-index: 1000;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Hamburger */
+
+.menu-toggle {
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 26px;
+    height: 3px;
+
+    background: #ffffff;
+
+    border-radius: 5px;
+
+    transition: 0.3s;
+}
+
+
+/* Navigation menu */
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    margin-left: 25px;
+}
+
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #f4c542;
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+    padding-top: 72px;
+}
+
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 80px 8%;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3, 22, 49, 0.95),
+            rgba(3, 22, 49, 0.65),
+            rgba(3, 22, 49, 0.25)
+        ),
+        url("/static/images/school.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 700px;
+    color: white;
+}
+
+.hero-eyebrow {
+    color: #f4c542;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6vw, 78px);
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: #f4c542;
+}
+
+.hero p {
+    font-size: 19px;
+
+    max-width: 600px;
+
+    color: #e7edf7;
+
+    margin-bottom: 35px;
+}
+
+
+/* Hero buttons */
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+
+    padding: 14px 25px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #f4c542;
+    color: #071d3b;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 25px rgba(244, 197, 66, 0.3);
+}
+
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: #071d3b;
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+   ========================================================= */
+
+.section {
+    padding: 90px 8%;
+}
+
+.section-heading {
+    max-width: 750px;
+
+    margin: 0 auto 50px;
+
+    text-align: center;
+}
+
+.eyebrow {
+    color: #d09f00;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 10px;
+}
+
+.section-heading h2 {
+    font-size: 42px;
+
+    color: #071d3b;
+
+    margin-bottom: 15px;
+}
+
+.section-heading p {
+    color: #647084;
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   PATHWAYS
+   ========================================================= */
+
+.pathways {
+    background: #f5f7fb;
+}
+
+.pathway-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.pathway-card {
+    position: relative;
+
+    padding: 35px;
+
+    min-height: 330px;
+
+    border-radius: 18px;
+
+    background: white;
+
+    border: 1px solid #e4e8ef;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+
+    text-decoration: none;
+
+    color: #172033;
+
+    overflow: hidden;
+
+    transition: 0.35s;
+}
+
+.pathway-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background: #f4c542;
+}
+
+.pathway-card:hover {
+    transform: translateY(-10px);
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.13);
+}
+
+.pathway-number {
+    font-size: 50px;
+
+    font-weight: 800;
+
+    color: #e8edf5;
+
+    margin-bottom: 10px;
+}
+
+.pathway-card h3 {
+    font-size: 28px;
+
+    color: #071d3b;
+
+    margin-bottom: 15px;
+}
+
+.pathway-card p {
+    color: #647084;
+
+    margin-bottom: 25px;
+}
+
+.card-button {
+    color: #b88600;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   SCHOOL INTRODUCTION
+   ========================================================= */
+
+.school-intro {
+    background: white;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+
+    align-items: center;
+}
+
+.school-intro img {
+    width: 100%;
+
+    border-radius: 20px;
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+.school-intro h2 {
+    color: #071d3b;
+
+    font-size: 42px;
+
+    margin-bottom: 20px;
+}
+
+.school-intro p {
+    color: #647084;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   INFORMATION CARDS
+   ========================================================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.info-card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+    transition: 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-6px);
+}
+
+.info-card h3 {
+    color: #071d3b;
+
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    color: #647084;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    background: #04182f;
+
+    color: white;
+
+    padding: 60px 8%;
+}
+
+.footer-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr 1fr;
+
+    gap: 50px;
+}
+
+footer h3 {
+    color: #f4c542;
+
+    margin-bottom: 15px;
+}
+
+footer p,
+footer a {
+    color: #bdc8d8;
+
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white;
+}
+
+
+/* =========================================================
+   FEES PAGE
+   ========================================================= */
+
+.fees-page {
+    min-height: calc(100vh - 72px);
+
+    padding: 80px 8%;
+
+    background: #f5f7fb;
+}
+
+.fees-header {
+    text-align: center;
+
+    max-width: 700px;
+
+    margin: auto auto 50px;
+}
+
+.fees-header h1 {
+    color: #071d3b;
+
+    font-size: 48px;
+
+    margin-bottom: 15px;
+}
+
+.fees-header p {
+    color: #647084;
+}
+
+.fees-container {
+    max-width: 1050px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 30px;
+}
+
+.fees-info,
+.fees-card {
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+.fees-info h2,
+.fees-card h2 {
+    color: #071d3b;
+
+    margin-bottom: 15px;
+}
+
+.payment-item {
+    padding: 15px 0;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+.payment-item span {
+    display: block;
+
+    color: #7b8494;
+
+    font-size: 13px;
+}
+
+.payment-item strong {
+    color: #071d3b;
+}
+
+.payment-notice {
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #fff8df;
+
+    border-left: 4px solid #f4c542;
+
+    color: #5e4c12;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: 600;
+
+    color: #172033;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #dce1e9;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #071d3b;
+
+    box-shadow: 0 0 0 3px rgba(7, 29, 59, 0.08);
+}
+
+.payment-button {
+    width: 100%;
+
+    border: none;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    background: #071d3b;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.payment-button:hover {
+    background: #0d3565;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .nav-menu {
+        position: absolute;
+
+        top: 72px;
+        left: 0;
+
+        width: 100%;
+
+        background: #071d3b;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 25px 8%;
+
+        gap: 20px;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .pathway-grid,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .school-intro,
+    .fees-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        min-height: 600px;
+
+        padding: 70px 7%;
+    }
+
+    .section {
+        padding: 70px 7%;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .section-heading h2 {
+        font-size: 32px;
+    }
+
+    .fees-header h1 {
+        font-size: 36px;
+    }
+}
+/* =========================================================
+   PATHWAY PAGES - SPECIAL DESIGNS
+========================================================= */
+
+.pathway-page {
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+
+/* =========================================================
+   COMMON PATHWAY HERO
+========================================================= */
+
+.pathway-hero {
+    min-height: 520px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 90px 8%;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.pathway-hero-content {
+    max-width: 850px;
+    position: relative;
+    z-index: 2;
+}
+
+.pathway-badge {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border-radius: 50px;
+
+    font-size: 0.8rem;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 25px;
+}
+
+.pathway-hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+
+    color: white;
+}
+
+.pathway-hero h1 span {
+    display: block;
+}
+
+.pathway-hero p {
+    max-width: 700px;
+
+    font-size: 1.1rem;
+
+    line-height: 1.8;
+
+    color: rgba(255,255,255,0.85);
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.pathway-stats {
+    display: flex;
+
+    gap: 45px;
+
+    margin-top: 45px;
+}
+
+.pathway-stats div {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.pathway-stats strong {
+    font-size: 2rem;
+
+    color: white;
+}
+
+.pathway-stats span {
+    font-size: 0.8rem;
+
+    color: rgba(255,255,255,0.7);
+
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   SUBJECT AREA
+========================================================= */
+
+.pathway-page .subjects-section {
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 90px 8% 0;
+}
+
+.pathway-page .section-heading {
+    margin-bottom: 45px;
+}
+
+.pathway-page .section-heading h2 {
+    font-size: 2.6rem;
+}
+
+
+/* =========================================================
+   SUBJECT CARDS
+========================================================= */
+
+.pathway-page .subject-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+.pathway-page .subject-card {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 310px;
+
+    padding: 35px;
+
+    border-radius: 22px;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.pathway-page .subject-card:hover {
+    transform: translateY(-10px);
+}
+
+.subject-number {
+    position: absolute;
+
+    top: 18px;
+
+    right: 25px;
+
+    font-size: 3.5rem;
+
+    font-weight: 900;
+
+    opacity: 0.12;
+}
+
+.subject-icon {
+    font-size: 2.5rem;
+
+    margin-bottom: 25px;
+}
+
+.pathway-page .subject-card h3 {
+    font-size: 1.55rem;
+
+    margin-bottom: 15px;
+}
+
+.pathway-page .subject-card p {
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+.subject-button {
+    margin-top: auto;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   🔬 STEM
+========================================================= */
+
+.pathway-stem {
+    background: #eef7ff;
+}
+
+.pathway-stem .pathway-hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(0, 180, 255, 0.35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #031b3d,
+            #075985,
+            #0369a1
+        );
+}
+
+.pathway-stem .pathway-badge {
+    background: rgba(255,255,255,0.12);
+
+    color: #7dd3fc;
+
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.pathway-stem .pathway-hero h1 span {
+    color: #38bdf8;
+}
+
+.pathway-stem .section-heading h2 {
+    color: #063970;
+}
+
+.pathway-stem .subject-card {
+    background: white;
+
+    border: 1px solid #d7ebfa;
+
+    box-shadow:
+        0 15px 40px rgba(3, 105, 161, 0.08);
+}
+
+.pathway-stem .subject-card:hover {
+    box-shadow:
+        0 20px 50px rgba(3, 105, 161, 0.18);
+}
+
+.pathway-stem .subject-icon {
+    color: #0284c7;
+}
+
+.pathway-stem .subject-card h3 {
+    color: #063970;
+}
+
+.pathway-stem .subject-card p {
+    color: #64748b;
+}
+
+.pathway-stem .subject-button {
+    color: #0284c7;
+}
+
+
+/* =========================================================
+   🌍 SOCIAL SCIENCES
+========================================================= */
+
+.pathway-social {
+    background: #fbf8f0;
+}
+
+.pathway-social .pathway-hero {
+    background:
+        radial-gradient(
+            circle at 80% 25%,
+            rgba(245, 158, 11, 0.3),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #33210b,
+            #704214,
+            #a16207
+        );
+}
+
+.pathway-social .pathway-badge {
+    background: rgba(255,255,255,0.12);
+
+    color: #fde68a;
+
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.pathway-social .pathway-hero h1 span {
+    color: #fbbf24;
+}
+
+.pathway-social .section-heading h2 {
+    color: #713f12;
+}
+
+.pathway-social .subject-card {
+    background: #fffdf7;
+
+    border: 1px solid #eadfc7;
+
+    box-shadow:
+        0 15px 40px rgba(120, 80, 20, 0.08);
+}
+
+.pathway-social .subject-card:hover {
+    box-shadow:
+        0 20px 50px rgba(120, 80, 20, 0.18);
+}
+
+.pathway-social .subject-icon {
+    color: #b45309;
+}
+
+.pathway-social .subject-card h3 {
+    color: #713f12;
+}
+
+.pathway-social .subject-card p {
+    color: #78716c;
+}
+
+.pathway-social .subject-button {
+    color: #b45309;
+}
+
+
+/* =========================================================
+   🎨 ARTS & SPORTS
+========================================================= */
+
+.pathway-arts {
+    background: #faf5ff;
+}
+
+.pathway-arts .pathway-hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(236, 72, 153, 0.35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #240046,
+            #6b21a8,
+            #be185d
+        );
+}
+
+.pathway-arts .pathway-badge {
+    background: rgba(255,255,255,0.12);
+
+    color: #f5d0fe;
+
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.pathway-arts .pathway-hero h1 span {
+    color: #f9a8d4;
+}
+
+.pathway-arts .section-heading h2 {
+    color: #581c87;
+}
+
+.pathway-arts .subject-card {
+    background: white;
+
+    border: 1px solid #eadcf4;
+
+    box-shadow:
+        0 15px 40px rgba(126, 34, 206, 0.08);
+}
+
+.pathway-arts .subject-card:hover {
+    box-shadow:
+        0 20px 50px rgba(126, 34, 206, 0.18);
+}
+
+.pathway-arts .subject-icon {
+    color: #a21caf;
+}
+
+.pathway-arts .subject-card h3 {
+    color: #581c87;
+}
+
+.pathway-arts .subject-card p {
+    color: #6b7280;
+}
+
+.pathway-arts .subject-button {
+    color: #a21caf;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .pathway-page .subject-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pathway-hero {
+        min-height: 480px;
+
+        padding: 75px 7%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .pathway-page .subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pathway-hero {
+        padding: 70px 6%;
+    }
+
+    .pathway-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .pathway-stats {
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .pathway-page .subjects-section {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+}
+/* =========================================================
+   SUBJECT PAGES
+========================================================= */
+
+.subject-page {
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+
+/* =========================================================
+   SUBJECT HERO
+========================================================= */
+
+.subject-hero {
+    min-height: 430px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 80px 8%;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.subject-hero-content {
+    max-width: 900px;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* BACK BUTTON */
+
+.back-button {
+    display: inline-block;
+
+    margin-bottom: 30px;
+
+    padding: 10px 18px;
+
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    color: rgba(255,255,255,0.9);
+
+    background: rgba(255,255,255,0.12);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    transition: 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255,255,255,0.22);
+
+    transform: translateX(-4px);
+}
+
+
+/* SUBJECT LABEL */
+
+.subject-label {
+    display: block;
+
+    margin-bottom: 15px;
+
+    font-size: 0.8rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.7);
+}
+
+
+/* SUBJECT TITLE */
+
+.subject-hero h1 {
+    font-size: clamp(3rem, 6vw, 5rem);
+
+    line-height: 1;
+
+    color: white;
+
+    margin-bottom: 25px;
+}
+
+.subject-hero p {
+    max-width: 700px;
+
+    color: rgba(255,255,255,0.85);
+
+    font-size: 1.1rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   RESOURCE SECTION
+========================================================= */
+
+.resource-section {
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 90px 8% 0;
+}
+
+
+/* =========================================================
+   RESOURCE GRID
+========================================================= */
+
+.resource-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 28px;
+
+    margin-top: 45px;
+}
+
+
+/* =========================================================
+   RESOURCE CARD
+========================================================= */
+
+.resource-card {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 300px;
+
+    padding: 35px;
+
+    border-radius: 22px;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.resource-card:hover {
+    transform: translateY(-8px);
+}
+
+
+/* ICON */
+
+.resource-icon {
+    font-size: 2.7rem;
+
+    margin-bottom: 25px;
+}
+
+
+/* NUMBER */
+
+.resource-number {
+    position: absolute;
+
+    top: 15px;
+
+    right: 25px;
+
+    font-size: 4rem;
+
+    font-weight: 900;
+
+    opacity: 0.1;
+}
+
+
+/* CONTENT */
+
+.resource-content h3 {
+    font-size: 1.6rem;
+
+    margin-bottom: 15px;
+}
+
+.resource-content p {
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+
+/* BUTTON */
+
+.resource-button {
+    margin-top: auto;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   🔬 STEM SUBJECTS
+========================================================= */
+
+.subject-stem {
+    background: #eef7ff;
+}
+
+.subject-stem .subject-hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(0, 200, 255, 0.35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #031b3d,
+            #075985,
+            #0369a1
+        );
+}
+
+.subject-stem .resource-card {
+    background: white;
+
+    border: 1px solid #d7ebfa;
+
+    box-shadow:
+        0 15px 40px rgba(3, 105, 161, 0.08);
+}
+
+.subject-stem .resource-card:hover {
+    box-shadow:
+        0 20px 50px rgba(3, 105, 161, 0.18);
+}
+
+.subject-stem .resource-content h3 {
+    color: #063970;
+}
+
+.subject-stem .resource-content p {
+    color: #64748b;
+}
+
+.subject-stem .resource-button {
+    color: #0284c7;
+}
+
+
+/* =========================================================
+   🌍 SOCIAL SCIENCES SUBJECTS
+========================================================= */
+
+.subject-social-sciences {
+    background: #fbf8f0;
+}
+
+.subject-social-sciences .subject-hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(245, 158, 11, 0.3),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #33210b,
+            #704214,
+            #a16207
+        );
+}
+
+.subject-social-sciences .resource-card {
+    background: #fffdf7;
+
+    border: 1px solid #eadfc7;
+
+    box-shadow:
+        0 15px 40px rgba(120, 80, 20, 0.08);
+}
+
+.subject-social-sciences .resource-card:hover {
+    box-shadow:
+        0 20px 50px rgba(120, 80, 20, 0.18);
+}
+
+.subject-social-sciences .resource-content h3 {
+    color: #713f12;
+}
+
+.subject-social-sciences .resource-content p {
+    color: #78716c;
+}
+
+.subject-social-sciences .resource-button {
+    color: #b45309;
+}
+
+
+/* =========================================================
+   🎨 ARTS & SPORTS SUBJECTS
+========================================================= */
+
+.subject-arts-sports {
+    background: #faf5ff;
+}
+
+.subject-arts-sports .subject-hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(236, 72, 153, 0.35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #240046,
+            #6b21a8,
+            #be185d
+        );
+}
+
+.subject-arts-sports .resource-card {
+    background: white;
+
+    border: 1px solid #eadcf4;
+
+    box-shadow:
+        0 15px 40px rgba(126, 34, 206, 0.08);
+}
+
+.subject-arts-sports .resource-card:hover {
+    box-shadow:
+        0 20px 50px rgba(126, 34, 206, 0.18);
+}
+
+.subject-arts-sports .resource-content h3 {
+    color: #581c87;
+}
+
+.subject-arts-sports .resource-content p {
+    color: #6b7280;
+}
+
+.subject-arts-sports .resource-button {
+    color: #a21caf;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .resource-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-hero {
+        padding: 70px 6%;
+    }
+
+    .subject-hero h1 {
+        font-size: 3rem;
+    }
+
+    .resource-section {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+}
+/* =========================================================
+   LEARNING RESOURCE HUB
+========================================================= */
+
+.resource-page {
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+.resource-hero {
+    min-height: 400px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 80px 8%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #031b3d,
+            #075985,
+            #0369a1
+        );
+}
+
+.resource-hero-content {
+    max-width: 850px;
+}
+
+.resource-pathway {
+    display: block;
+
+    color: rgba(255,255,255,0.7);
+
+    font-size: 0.85rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+.resource-hero h1 {
+    color: white;
+
+    font-size: clamp(2.8rem, 6vw, 5rem);
+
+    margin-bottom: 20px;
+}
+
+.resource-hero p {
+    color: rgba(255,255,255,0.85);
+
+    font-size: 1.1rem;
+
+    line-height: 1.8;
+
+    max-width: 700px;
+}
+
+
+/* RESOURCE HUB */
+
+.resource-hub {
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 90px 8% 0;
+}
+
+
+/* RESOURCE CARDS */
+
+.learning-resource-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-top: 45px;
+}
+
+.learning-resource-card {
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 280px;
+
+    padding: 30px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    border: 1px solid #e1e8f0;
+
+    box-shadow:
+        0 12px 35px rgba(0, 35, 75, 0.08);
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+.learning-resource-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 45px rgba(0, 35, 75, 0.15);
+
+    border-color: #1769aa;
+}
+
+.learning-resource-icon {
+    font-size: 2.8rem;
+
+    margin-bottom: 20px;
+}
+
+.learning-resource-card h3 {
+    color: #062b5c;
+
+    font-size: 1.4rem;
+
+    margin-bottom: 12px;
+}
+
+.learning-resource-card p {
+    color: #667085;
+
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+.learning-resource-card span {
+    margin-top: auto;
+
+    color: #1769aa;
+
+    font-weight: 800;
+}
+
+
+/* EXTERNAL RESOURCES */
+
+.external-resources {
+    margin-top: 100px;
+}
+
+.external-resource-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    margin-top: 40px;
+}
+
+.external-resource {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 22px 25px;
+
+    background: white;
+
+    border: 1px solid #e1e8f0;
+
+    border-radius: 16px;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+.external-resource:hover {
+    transform: translateX(6px);
+
+    border-color: #1769aa;
+
+    box-shadow:
+        0 10px 30px rgba(0, 35, 75, 0.1);
+}
+
+.external-resource > span {
+    font-size: 2rem;
+}
+
+.external-resource div {
+    flex: 1;
+}
+
+.external-resource h3 {
+    margin-bottom: 5px;
+
+    color: #062b5c;
+}
+
+.external-resource p {
+    color: #667085;
+
+    margin: 0;
+}
+
+.external-resource strong {
+    color: #1769aa;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .learning-resource-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .learning-resource-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-hub {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    .resource-hero {
+        padding: 70px 6%;
+    }
+
+    .external-resource {
+        align-items: flex-start;
+    }
+
+}
+/* ============================================================
+   SCHOOL FEES & PAYMENT
+   ============================================================ */
+
+.fees-page {
+    background: #f7f9fc;
+    min-height: 100vh;
+}
+
+
+/* HERO */
+
+.fees-hero {
+    padding: 110px 8%;
+    background:
+        linear-gradient(
+            135deg,
+            #061a33,
+            #0b4f71
+        );
+    color: white;
+}
+
+.fees-hero-content {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.fees-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    opacity: 0.75;
+    margin-bottom: 20px;
+}
+
+.fees-hero h1 {
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.05;
+    margin-bottom: 25px;
+}
+
+.fees-hero h1 span {
+    display: block;
+    color: #45d4ff;
+}
+
+.fees-hero p {
+    font-size: 19px;
+    max-width: 650px;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+
+/* CONTENT */
+
+.fees-content {
+    max-width: 1400px;
+    margin: auto;
+    padding: 80px 8%;
+}
+
+
+/* PAYMENT CARDS */
+
+.payment-method-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-top: 45px;
+}
+
+.payment-card {
+    background: white;
+    padding: 35px;
+    border-radius: 24px;
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.07);
+
+    transition: 0.3s ease;
+}
+
+.payment-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.12);
+}
+
+.payment-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    font-size: 34px;
+
+    background: #eef5ff;
+
+    margin-bottom: 25px;
+}
+
+.payment-card h3 {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.payment-card p {
+    color: #667085;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+
+/* PAYMENT NUMBER */
+
+.payment-number {
+    padding: 18px;
+    border-radius: 14px;
+    background: #f3f6fa;
+    margin-bottom: 20px;
+}
+
+.payment-number span {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #667085;
+    margin-bottom: 5px;
+}
+
+.payment-number strong {
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+
+/* PAYMENT PENDING */
+
+.payment-pending {
+    padding: 16px;
+    border-radius: 14px;
+    background: #fff8e6;
+    color: #7a5a00;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+
+/* BUTTON */
+
+.payment-button {
+    width: 100%;
+    padding: 15px 20px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #0b4f71;
+    color: white;
+
+    font-weight: 700;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.payment-button:hover {
+    background: #083b55;
+    transform: translateY(-2px);
+}
+
+
+/* INSTRUCTIONS */
+
+.payment-instructions {
+    margin-top: 60px;
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 24px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.06);
+}
+
+.instructions-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.instructions-header > span {
+    font-size: 42px;
+}
+
+.instructions-header h2 {
+    margin: 0;
+}
+
+.payment-instructions ol {
+    margin: 0;
+    padding-left: 25px;
+}
+
+.payment-instructions li {
+    padding: 12px 0;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    color: #344054;
+}
+
+
+/* STUDENT PAYMENT */
+
+.student-payment {
+    margin-top: 70px;
+
+    background: white;
+
+    padding: 50px;
+
+    border-radius: 24px;
+
+    border: 1px solid #e5e7eb;
+}
+
+.student-payment-form {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-top: 35px;
+}
+
+.form-group label {
+    display: block;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 15px;
+
+    border: 1px solid #d0d5dd;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #0b4f71;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(11, 79, 113, 0.1);
+}
+
+
+/* WARNING */
+
+.payment-warning {
+    display: flex;
+
+    gap: 12px;
+
+    align-items: flex-start;
+
+    margin-top: 30px;
+
+    padding: 18px;
+
+    border-radius: 14px;
+
+    background: #fff8e6;
+
+    color: #735c00;
+
+    line-height: 1.6;
+}
+
+
+/* HELP */
+
+.payment-help {
+    margin-top: 70px;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background: #061a33;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+.payment-help > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.help-icon {
+    font-size: 35px;
+}
+
+.payment-help h3 {
+    margin-bottom: 7px;
+}
+
+.payment-help p {
+    margin: 0;
+
+    opacity: 0.75;
+}
+
+.help-button {
+    display: inline-block;
+
+    padding: 14px 22px;
+
+    background: white;
+
+    color: #061a33;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .payment-method-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-payment-form {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-help {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .fees-hero {
+        padding: 75px 6%;
+    }
+
+    .fees-content {
+        padding: 60px 6%;
+    }
+
+    .payment-instructions,
+    .student-payment {
+        padding: 30px 22px;
+    }
+
+}
+/* ============================================================
+   MODERN HOMEPAGE
+============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f8fa;
+    color: #172033;
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.hero {
+    position: relative;
+    min-height: 620px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 15, 35, 0.92) 0%,
+            rgba(5, 15, 35, 0.72) 45%,
+            rgba(5, 15, 35, 0.25) 100%
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(1150px, 90%);
+    margin: auto;
+    color: white;
+    padding: 100px 0;
+}
+
+.hero-label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98;
+    margin: 0 0 25px;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: #58c7ff;
+}
+
+.hero-description {
+    max-width: 650px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn {
+    display: inline-block;
+    padding: 15px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.25s ease;
+}
+
+.btn-primary {
+    background: #1597e5;
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+}
+
+.btn-secondary {
+    border: 1px solid rgba(255,255,255,0.6);
+    color: white;
+    background: rgba(255,255,255,0.08);
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #172033;
+}
+
+
+/* ============================================================
+   PATHWAYS
+============================================================ */
+
+.pathways-section {
+    width: min(1150px, 90%);
+    margin: auto;
+    padding: 100px 0;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 55px;
+}
+
+.eyebrow {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #1597e5;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    margin: 0 0 15px;
+}
+
+.section-heading p {
+    color: #667085;
+    line-height: 1.7;
+}
+
+.pathways-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.pathway-card {
+    min-height: 380px;
+    padding: 35px;
+    border-radius: 24px;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s ease;
+}
+
+.pathway-card:hover {
+    transform: translateY(-8px);
+}
+
+.pathway-stem {
+    background: linear-gradient(145deg, #087ea4, #06385f);
+}
+
+.pathway-social-sciences {
+    background: linear-gradient(145deg, #9b691e, #51310c);
+}
+
+.pathway-arts-sports {
+    background: linear-gradient(145deg, #8736a8, #421557);
+}
+
+.pathway-number {
+    font-size: 60px;
+    font-weight: 800;
+    opacity: 0.25;
+}
+
+.pathway-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    opacity: 0.75;
+}
+
+.pathway-content h3 {
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.pathway-content p {
+    line-height: 1.6;
+    opacity: 0.85;
+}
+
+.pathway-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   SCHOOL INFORMATION
+============================================================ */
+
+.school-info-section {
+    background: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 550px;
+}
+
+.school-info-image {
+    min-height: 450px;
+}
+
+.school-info-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.school-info-content {
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.school-info-content h2 {
+    font-size: 45px;
+    margin: 0 0 20px;
+}
+
+.school-info-content > p {
+    color: #667085;
+    line-height: 1.8;
+    max-width: 600px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 30px 0;
+}
+
+.info-grid div {
+    padding: 18px;
+    background: #f5f7fa;
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.info-grid strong {
+    font-size: 22px;
+}
+
+.info-grid span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.text-link {
+    color: #1597e5;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   CTA
+============================================================ */
+
+.cta-section {
+    width: min(1150px, 90%);
+    margin: 90px auto;
+    padding: 60px;
+    border-radius: 25px;
+    background: #081a32;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.cta-section h2 {
+    font-size: 40px;
+    margin: 5px 0 15px;
+}
+
+.cta-section p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .pathways-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .school-info-section {
+        grid-template-columns: 1fr;
+    }
+
+    .school-info-content {
+        padding: 50px 25px;
+    }
+
+    .cta-section {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 40px 25px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-content {
+        padding: 70px 0;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .pathways-section {
+        padding: 65px 0;
+    }
+
+    .school-info-content h2 {
+        font-size: 34px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-section h2 {
+        font-size: 32px;
+    }
+}
+/* ================================
+   ACADEMICS PATHWAYS
+================================ */
+
+.pathways-section {
+    padding: 80px 6%;
+    background: #f5f7fb;
+}
+
+.pathways-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.pathway-card {
+    display: block;
+    text-decoration: none;
+    padding: 35px;
+    min-height: 480px;
+    border-radius: 25px;
+    background: white;
+    color: #111827;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    transition: 0.3s ease;
+}
+
+.pathway-card:hover {
+    transform: translateY(-10px);
+}
+
+.pathway-number {
+    font-size: 60px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    opacity: 0.25;
+}
+
+.pathway-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.pathway-card h2 {
+    display: block !important;
+    font-size: 36px !important;
+    font-weight: 900 !important;
+    margin: 10px 0 20px !important;
+    color: #111827 !important;
+}
+
+.pathway-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.pathway-card ul {
+    padding-left: 20px;
+    line-height: 2;
+}
+
+.pathway-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: 800;
+}
+
+
+/* STEM */
+.pathway-stem {
+    border-top: 7px solid #087fda;
+}
+
+.pathway-stem .pathway-number,
+.pathway-stem .pathway-label,
+.pathway-stem .pathway-link {
+    color: #087fda;
+}
+
+
+/* SOCIAL SCIENCES */
+.pathway-social {
+    border-top: 7px solid #b7791f;
+}
+
+.pathway-social .pathway-number,
+.pathway-social .pathway-label,
+.pathway-social .pathway-link {
+    color: #b7791f;
+}
+
+
+/* ARTS & SPORTS */
+.pathway-arts {
+    border-top: 7px solid #8b5cf6;
+}
+
+.pathway-arts .pathway-number,
+.pathway-arts .pathway-label,
+.pathway-arts .pathway-link {
+    color: #8b5cf6;
+}
+
+
+/* MOBILE */
+@media (max-width: 900px) {
+
+    .pathways-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pathway-card {
+        min-height: auto;
+    }
+
+    .pathway-card h2 {
+        font-size: 30px !important;
+    }
+
+}

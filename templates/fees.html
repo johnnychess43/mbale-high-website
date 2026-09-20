@@ -1,0 +1,459 @@
+{% extends "base.html" %}
+
+{% block title %}
+School Fees | Friends School Mbale
+{% endblock %}
+
+{% block content %}
+
+<section class="fees-page">
+
+    <!-- HERO -->
+
+    <section class="fees-hero">
+
+        <div class="fees-hero-content">
+
+            <span class="fees-label">
+                FRIENDS SCHOOL MBALE
+            </span>
+
+            <h1>
+                School Fees
+                <span>& Payments</span>
+            </h1>
+
+            <p>
+                Convenient payment options for parents,
+                guardians and students.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAYMENT OPTIONS -->
+
+    <section class="fees-content">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                PAYMENT METHODS
+            </p>
+
+            <h2>
+                Choose Your Payment Method
+            </h2>
+
+            <p>
+                Select a payment method below to view
+                the instructions.
+            </p>
+
+        </div>
+
+
+        <div class="payment-method-grid">
+
+
+            <!-- M-PESA -->
+
+            <div class="payment-card mpesa-card">
+
+                <div class="payment-icon">
+                    📱
+                </div>
+
+                <h3>
+                    M-PESA
+                </h3>
+
+                <p>
+                    Pay school fees conveniently using
+                    M-PESA.
+                </p>
+
+                {% if payment_info.mpesa.paybill %}
+
+                <div class="payment-number">
+                    <span>PayBill</span>
+
+                    <strong>
+                        {{ payment_info.mpesa.paybill }}
+                    </strong>
+                </div>
+
+                {% else %}
+
+                <div class="payment-pending">
+                    Official PayBill number will be
+                    published here.
+                </div>
+
+                {% endif %}
+
+                <button
+                    class="payment-button"
+                    onclick="showPayment('mpesa')"
+                >
+                    View M-PESA Instructions →
+                </button>
+
+            </div>
+
+
+            <!-- KCB -->
+
+            <div class="payment-card kcb-card">
+
+                <div class="payment-icon">
+                    🏦
+                </div>
+
+                <h3>
+                    KCB Bank
+                </h3>
+
+                <p>
+                    Pay through KCB Mobile Banking
+                    or Lipa Karo.
+                </p>
+
+                {% if payment_info.kcb.account_number %}
+
+                <div class="payment-number">
+
+                    <span>Account</span>
+
+                    <strong>
+                        {{ payment_info.kcb.account_number }}
+                    </strong>
+
+                </div>
+
+                {% else %}
+
+                <div class="payment-pending">
+                    Official KCB account details will
+                    be published here.
+                </div>
+
+                {% endif %}
+
+                <button
+                    class="payment-button"
+                    onclick="showPayment('kcb')"
+                >
+                    View KCB Instructions →
+                </button>
+
+            </div>
+
+
+            <!-- BANK -->
+
+            <div class="payment-card bank-card">
+
+                <div class="payment-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Bank Payment
+                </h3>
+
+                <p>
+                    Make a direct bank payment to
+                    the school account.
+                </p>
+
+                {% if payment_info.bank.account_number %}
+
+                <div class="payment-number">
+
+                    <span>Account</span>
+
+                    <strong>
+                        {{ payment_info.bank.account_number }}
+                    </strong>
+
+                </div>
+
+                {% else %}
+
+                <div class="payment-pending">
+                    Official bank account details will
+                    be published here.
+                </div>
+
+                {% endif %}
+
+                <button
+                    class="payment-button"
+                    onclick="showPayment('bank')"
+                >
+                    View Bank Instructions →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT INSTRUCTIONS -->
+
+        <div
+            id="paymentInstructions"
+            class="payment-instructions"
+        >
+
+            <div class="instructions-header">
+
+                <span id="instructionIcon">
+                    📱
+                </span>
+
+                <div>
+
+                    <p class="eyebrow">
+                        PAYMENT GUIDE
+                    </p>
+
+                    <h2 id="instructionTitle">
+                        M-PESA Payment
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <ol id="instructionList">
+
+                {% for instruction
+                   in payment_info.mpesa.instructions %}
+
+                <li>
+                    {{ instruction }}
+                </li>
+
+                {% endfor %}
+
+            </ol>
+
+        </div>
+
+
+        <!-- STUDENT PAYMENT DETAILS -->
+
+        <section class="student-payment">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    PAYMENT REFERENCE
+                </p>
+
+                <h2>
+                    Student Details
+                </h2>
+
+                <p>
+                    Always use the correct student
+                    admission number when making a payment.
+                </p>
+
+            </div>
+
+
+            <div class="student-payment-form">
+
+                <div class="form-group">
+
+                    <label for="studentName">
+                        Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Enter student name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="admissionNumber">
+                        Admission Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admissionNumber"
+                        placeholder="Enter admission number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount (KES)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="Enter amount"
+                        min="1"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="payment-warning">
+
+                ⚠️
+                <span>
+                    Always confirm the official school
+                    payment details before sending money.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- HELP -->
+
+        <section class="payment-help">
+
+            <div>
+
+                <span class="help-icon">
+                    ☎️
+                </span>
+
+                <div>
+
+                    <h3>
+                        Need Help With Payment?
+                    </h3>
+
+                    <p>
+                        Contact Friends School Mbale
+                        for assistance with school fees
+                        payments.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <a
+                href="{{ url_for('contact') }}"
+                class="help-button"
+            >
+                Contact School →
+            </a>
+
+        </section>
+
+    </section>
+
+</section>
+
+
+<!-- PAYMENT JAVASCRIPT -->
+
+<script>
+
+const paymentData = {
+
+    mpesa: {
+        title: "M-PESA Payment",
+        icon: "📱",
+        instructions: [
+            {% for instruction in payment_info.mpesa.instructions %}
+            {{ instruction | tojson }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    },
+
+    kcb: {
+        title: "KCB Bank Payment",
+        icon: "🏦",
+        instructions: [
+            {% for instruction in payment_info.kcb.instructions %}
+            {{ instruction | tojson }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    },
+
+    bank: {
+        title: "Bank Payment",
+        icon: "💳",
+        instructions: [
+            {% for instruction in payment_info.bank.instructions %}
+            {{ instruction | tojson }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+
+};
+
+
+function showPayment(method) {
+
+    const data = paymentData[method];
+
+    if (!data) {
+        return;
+    }
+
+    document.getElementById(
+        "instructionTitle"
+    ).textContent = data.title;
+
+    document.getElementById(
+        "instructionIcon"
+    ).textContent = data.icon;
+
+
+    const list = document.getElementById(
+        "instructionList"
+    );
+
+    list.innerHTML = "";
+
+
+    data.instructions.forEach(
+        function(instruction) {
+
+            const li = document.createElement("li");
+
+            li.textContent = instruction;
+
+            list.appendChild(li);
+
+        }
+    );
+
+
+    document.getElementById(
+        "paymentInstructions"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+</script>
+
+{% endblock %}

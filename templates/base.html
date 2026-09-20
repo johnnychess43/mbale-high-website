@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        Friends School Mbale
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- HAMBURGER NAVIGATION -->
+<nav class="navbar">
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('academics') }}">Academics</a>
+        <a href="{{ url_for('news') }}">News</a>
+        <a href="{{ url_for('gallery') }}">Gallery</a>
+        <a href="{{ url_for('fees') }}">💳 Payments</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+
+    </div>
+
+</nav>
+
+
+            <!-- PAGE CONTENT -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

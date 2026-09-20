@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+About | {{ school.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <p class="eyebrow">ABOUT THE SCHOOL</p>
+
+    <h1>
+        About {{ school.full_name }}
+    </h1>
+
+    <p>
+        Learn more about our school, location,
+        identity and leadership.
+    </p>
+
+</section>
+
+
+<section class="section">
+
+    <div class="two-column">
+
+        <div>
+
+            <p class="eyebrow">OUR PROFILE</p>
+
+            <h2>A place to learn, grow and lead.</h2>
+
+            <p>
+                {{ school.full_name }} is a public boys'
+                boarding school located in
+                {{ school.sub_county }}, {{ school.county }},
+                in Western Kenya.
+            </p>
+
+            <p>
+                The school provides an environment where learners
+                can pursue academic development while also
+                participating in co-curricular activities,
+                leadership and talent development.
+            </p>
+
+        </div>
+
+
+        <div class="facts-box">
+
+            <h3>School Facts</h3>
+
+            <div class="fact">
+                <strong>County</strong>
+                <span>{{ school.county }}</span>
+            </div>
+
+            <div class="fact">
+                <strong>Sub-County</strong>
+                <span>{{ school.sub_county }}</span>
+            </div>
+
+            <div class="fact">
+                <strong>Type</strong>
+                <span>{{ school.type }}</span>
+            </div>
+
+            <div class="fact">
+                <strong>Cluster</strong>
+                <span>{{ school.cluster }}</span>
+            </div>
+
+            <div class="fact">
+                <strong>KNEC Code</strong>
+                <span>{{ school.knec }}</span>
+            </div>
+
+            <div class="fact">
+                <strong>UIC</strong>
+                <span>{{ school.uic }}</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="leadership">
+
+    <div class="section">
+
+        <p class="eyebrow">LEADERSHIP</p>
+
+        <h2>School Administration</h2>
+
+        <div class="leader-card">
+
+            <div class="leader-avatar">
+                👨‍🏫
+            </div>
+
+            <div>
+                <h3>{{ school.principal }}</h3>
+                <p>Principal</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section notice">
+
+    <h3>Important Information</h3>
+
+    <p>
+        School classifications and education-system details
+        can change as official education authorities update
+        their records. This website project should therefore
+        be updated whenever the school publishes new official
+        information.
+    </p>
+
+</section>
+
+{% endblock %}

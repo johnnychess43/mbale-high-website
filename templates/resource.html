@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ subject.name }} — {{ resource.title }} | Friends School Mbale
+{% endblock %}
+
+{% block content %}
+
+<section class="resource-page resource-{{ pathway_key }}">
+
+    <!-- RESOURCE HERO -->
+
+    <div class="resource-hero">
+
+        <div class="resource-hero-content">
+
+            <a
+                href="{{ url_for(
+                    'subject_page',
+                    pathway_key=pathway_key,
+                    subject_key=subject_key
+                ) }}"
+                class="back-button"
+            >
+                ← Back to {{ subject.name }}
+            </a>
+
+            <span class="resource-pathway">
+                {{ pathway.title }} / {{ subject.name }}
+            </span>
+
+            <h1>
+                {{ resource.title }}
+            </h1>
+
+            <p>
+                {{ resource.description }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESOURCE HUB -->
+
+    <section class="resource-hub">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                LEARNING CENTRE
+            </p>
+
+            <h2>
+                {{ subject.name }} — {{ resource.title }}
+            </h2>
+
+            <p>
+                Access study materials and learning resources
+                to support your learning and revision.
+            </p>
+
+        </div>
+
+
+        <div class="learning-resource-grid">
+
+
+            <!-- NOTES -->
+
+            <a
+                href="#notes"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    📖
+                </div>
+
+                <h3>
+                    Notes
+                </h3>
+
+                <p>
+                    Read and revise topic-by-topic notes
+                    for {{ subject.name }}.
+                </p>
+
+                <span>
+                    Open Notes →
+                </span>
+
+            </a>
+
+
+            <!-- ASSIGNMENTS -->
+
+            <a
+                href="#assignments"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Assignments
+                </h3>
+
+                <p>
+                    Practise with assignments and
+                    structured exercises.
+                </p>
+
+                <span>
+                    View Assignments →
+                </span>
+
+            </a>
+
+
+            <!-- QUESTIONS -->
+
+            <a
+                href="#questions"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    ❓
+                </div>
+
+                <h3>
+                    Revision Questions
+                </h3>
+
+                <p>
+                    Test your understanding with
+                    revision questions and practice.
+                </p>
+
+                <span>
+                    Practise Questions →
+                </span>
+
+            </a>
+
+
+            <!-- E-RESOURCES -->
+
+            <a
+                href="#eresources"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    💻
+                </div>
+
+                <h3>
+                    E-Resources
+                </h3>
+
+                <p>
+                    Explore digital learning resources
+                    and educational websites.
+                </p>
+
+                <span>
+                    Explore E-Resources →
+                </span>
+
+            </a>
+
+
+            <!-- VIDEOS -->
+
+            <a
+                href="#videos"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    🎥
+                </div>
+
+                <h3>
+                    Video Lessons
+                </h3>
+
+                <p>
+                    Learn through educational videos
+                    and demonstrations.
+                </p>
+
+                <span>
+                    Watch Lessons →
+                </span>
+
+            </a>
+
+
+            <!-- OPEN TEXTBOOKS -->
+
+            <a
+                href="#textbooks"
+                class="learning-resource-card"
+            >
+
+                <div class="learning-resource-icon">
+                    📚
+                </div>
+
+                <h3>
+                    Open Textbooks
+                </h3>
+
+                <p>
+                    Access legally available digital
+                    textbooks and reference materials.
+                </p>
+
+                <span>
+                    Browse Textbooks →
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- ==========================================
+             E-RESOURCE LINKS
+        ========================================== -->
+
+        <div class="external-resources" id="eresources">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    DIGITAL LEARNING
+                </p>
+
+                <h2>
+                    Useful E-Resources
+                </h2>
+
+                <p>
+                    Explore external educational platforms
+                    that can support your studies.
+                </p>
+
+            </div>
+
+
+            <div class="external-resource-list">
+
+                <a
+                    href="https://www.khanacademy.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="external-resource"
+                >
+
+                    <span>🎓</span>
+
+                    <div>
+                        <h3>Khan Academy</h3>
+
+                        <p>
+                            Free lessons, exercises and
+                            practice resources.
+                        </p>
+                    </div>
+
+                    <strong>Visit →</strong>
+
+                </a>
+
+
+                <a
+                    href="https://www.ck12.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="external-resource"
+                >
+
+                    <span>📘</span>
+
+                    <div>
+                        <h3>CK-12</h3>
+
+                        <p>
+                            Free digital textbooks and
+                            interactive learning resources.
+                        </p>
+                    </div>
+
+                    <strong>Visit →</strong>
+
+                </a>
+
+
+                <a
+                    href="https://phet.colorado.edu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="external-resource"
+                >
+
+                    <span>🔬</span>
+
+                    <div>
+                        <h3>PhET Interactive Simulations</h3>
+
+                        <p>
+                            Interactive science and mathematics
+                            simulations.
+                        </p>
+                    </div>
+
+                    <strong>Visit →</strong>
+
+                </a>
+
+
+                <a
+                    href="https://www.oercommons.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="external-resource"
+                >
+
+                    <span>🌐</span>
+
+                    <div>
+                        <h3>OER Commons</h3>
+
+                        <p>
+                            Open educational resources for
+                            teaching and learning.
+                        </p>
+                    </div>
+
+                    <strong>Visit →</strong>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}

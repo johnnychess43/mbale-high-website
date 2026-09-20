@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+Contact | {{ school.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <p class="eyebrow">GET IN TOUCH</p>
+
+    <h1>Contact {{ school.full_name }}</h1>
+
+    <p>
+        Contact the school using the available details below.
+    </p>
+
+</section>
+
+
+<section class="section">
+
+    <div class="contact-grid">
+
+        <div class="contact-card">
+
+            <span>📍</span>
+
+            <h3>Location</h3>
+
+            <p>
+                {{ school.sub_county }}<br>
+                {{ school.county }}<br>
+                {{ school.region }}
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <span>📞</span>
+
+            <h3>Telephone</h3>
+
+            <p>
+                <a href="tel:{{ school.phone }}">
+                    {{ school.phone }}
+                </a>
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <span>✉️</span>
+
+            <h3>Email</h3>
+
+            <p>
+                <a href="mailto:{{ school.email }}">
+                    {{ school.email }}
+                </a>
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <span>👨‍🏫</span>
+
+            <h3>Principal</h3>
+
+            <p>
+                {{ school.principal }}
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section contact-banner">
+
+    <h2>
+        Friends School Mbale
+    </h2>
+
+    <p>
+        Building knowledge, character and opportunity.
+    </p>
+
+</section>
+
+{% endblock %}

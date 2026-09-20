@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ pathway.title }} | Friends School Mbale
+{% endblock %}
+
+{% block content %}
+
+{% if pathway_key == "stem" %}
+
+    <!-- ================= STEM ================= -->
+
+    <section class="pathway-page pathway-stem">
+
+        <div class="pathway-hero">
+
+            <div class="pathway-hero-content">
+
+                <span class="pathway-badge">
+                    🔬 STEM PATHWAY
+                </span>
+
+                <h1>
+                    Science.
+                    Technology.
+                    <span>Innovation.</span>
+                </h1>
+
+                <p>
+                    {{ pathway.description }}
+                </p>
+
+                <div class="pathway-stats">
+
+                    <div>
+                        <strong>{{ pathway.subjects|length }}</strong>
+                        <span>Learning Areas</span>
+                    </div>
+
+                    <div>
+                        <strong>01</strong>
+                        <span>STEM Pathway</span>
+                    </div>
+
+                    <div>
+                        <strong>∞</strong>
+                        <span>Possibilities</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <section class="subjects-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    STEM LEARNING AREAS
+                </p>
+
+                <h2>
+                    Explore STEM Subjects
+                </h2>
+
+                <p>
+                    Build problem-solving skills, scientific thinking
+                    and technological knowledge.
+                </p>
+
+            </div>
+
+
+            <div class="subject-grid">
+
+                {% for subject_key, subject in pathway.subjects.items() %}
+
+                <a
+                    href="{{ url_for(
+                        'subject_page',
+                        pathway_key=pathway_key,
+                        subject_key=subject_key
+                    ) }}"
+                    class="subject-card"
+                >
+
+                    <span class="subject-number">
+                        {{ "%02d" | format(loop.index) }}
+                    </span>
+
+                    <span class="subject-icon">
+                        {% if subject_key == "mathematics" %}
+                            ∑
+                        {% elif subject_key == "computer-science" %}
+                            &lt;/&gt;
+                        {% elif subject_key == "physics" %}
+                            ⚛
+                        {% elif subject_key == "chemistry" %}
+                            ⚗
+                        {% elif subject_key == "biology" %}
+                            🧬
+                        {% endif %}
+                    </span>
+
+                    <h3>
+                        {{ subject.name }}
+                    </h3>
+
+                    <p>
+                        {{ subject.description }}
+                    </p>
+
+                    <span class="subject-button">
+                        Explore Subject →
+                    </span>
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+{% elif pathway_key == "social-sciences" %}
+
+    <!-- ================= SOCIAL SCIENCES ================= -->
+
+    <section class="pathway-page pathway-social">
+
+        <div class="pathway-hero">
+
+            <div class="pathway-hero-content">
+
+                <span class="pathway-badge">
+                    🌍 SOCIAL SCIENCES
+                </span>
+
+                <h1>
+                    Understanding
+                    <span>People & Society.</span>
+                </h1>
+
+                <p>
+                    {{ pathway.description }}
+                </p>
+
+                <div class="pathway-stats">
+
+                    <div>
+                        <strong>{{ pathway.subjects|length }}</strong>
+                        <span>Learning Areas</span>
+                    </div>
+
+                    <div>
+                        <strong>02</strong>
+                        <span>Social Sciences</span>
+                    </div>
+
+                    <div>
+                        <strong>🌍</strong>
+                        <span>Our World</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <section class="subjects-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    SOCIAL SCIENCES
+                </p>
+
+                <h2>
+                    Explore Social Sciences
+                </h2>
+
+                <p>
+                    Discover people, societies, cultures, places,
+                    history and economic activities.
+                </p>
+
+            </div>
+
+
+            <div class="subject-grid">
+
+                {% for subject_key, subject in pathway.subjects.items() %}
+
+                <a
+                    href="{{ url_for(
+                        'subject_page',
+                        pathway_key=pathway_key,
+                        subject_key=subject_key
+                    ) }}"
+                    class="subject-card"
+                >
+
+                    <span class="subject-number">
+                        {{ "%02d" | format(loop.index) }}
+                    </span>
+
+                    <span class="subject-icon">
+
+                        {% if subject_key == "history" %}
+                            🏛️
+                        {% elif subject_key == "geography" %}
+                            🌍
+                        {% elif subject_key == "business-studies" %}
+                            💼
+                        {% elif subject_key == "religious-education" %}
+                            📖
+                        {% endif %}
+
+                    </span>
+
+                    <h3>
+                        {{ subject.name }}
+                    </h3>
+
+                    <p>
+                        {{ subject.description }}
+                    </p>
+
+                    <span class="subject-button">
+                        Explore Subject →
+                    </span>
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+{% elif pathway_key == "arts-sports" %}
+
+    <!-- ================= ARTS & SPORTS ================= -->
+
+    <section class="pathway-page pathway-arts">
+
+        <div class="pathway-hero">
+
+            <div class="pathway-hero-content">
+
+                <span class="pathway-badge">
+                    🎨 ARTS & SPORTS
+                </span>
+
+                <h1>
+                    Creativity.
+                    <span>Talent. Performance.</span>
+                </h1>
+
+                <p>
+                    {{ pathway.description }}
+                </p>
+
+                <div class="pathway-stats">
+
+                    <div>
+                        <strong>{{ pathway.subjects|length }}</strong>
+                        <span>Learning Areas</span>
+                    </div>
+
+                    <div>
+                        <strong>03</strong>
+                        <span>Arts & Sports</span>
+                    </div>
+
+                    <div>
+                        <strong>★</strong>
+                        <span>Talent</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <section class="subjects-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    ARTS & SPORTS
+                </p>
+
+                <h2>
+                    Discover Your Talent
+                </h2>
+
+                <p>
+                    Develop creativity, performance skills,
+                    artistic expression and sporting ability.
+                </p>
+
+            </div>
+
+
+            <div class="subject-grid">
+
+                {% for subject_key, subject in pathway.subjects.items() %}
+
+                <a
+                    href="{{ url_for(
+                        'subject_page',
+                        pathway_key=pathway_key,
+                        subject_key=subject_key
+                    ) }}"
+                    class="subject-card"
+                >
+
+                    <span class="subject-number">
+                        {{ "%02d" | format(loop.index) }}
+                    </span>
+
+                    <span class="subject-icon">
+
+                        {% if subject_key == "art-design" %}
+                            🎨
+                        {% elif subject_key == "music" %}
+                            🎵
+                        {% elif subject_key == "theatre" %}
+                            🎭
+                        {% elif subject_key == "sports" %}
+                            ⚽
+                        {% endif %}
+
+                    </span>
+
+                    <h3>
+                        {{ subject.name }}
+                    </h3>
+
+                    <p>
+                        {{ subject.description }}
+                    </p>
+
+                    <span class="subject-button">
+                        Explore Subject →
+                    </span>
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </section>
+
+{% endif %}
+
+{% endblock %}

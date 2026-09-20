@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}
+Friends School Mbale | Excellence in Education
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-image">
+
+        <img
+            src="{{ url_for('static', filename='images/school.jpg') }}"
+            alt="Friends School Mbale"
+        >
+
+        <div class="hero-overlay"></div>
+
+    </div>
+
+    <div class="hero-content">
+
+        <p class="hero-label">
+            FRIENDS SCHOOL MBALE
+        </p>
+
+        <h1>
+            Excellence in<br>
+            <span>Education</span>
+        </h1>
+
+        <p class="hero-description">
+            Welcome to Friends School Mbale — a community
+            committed to academic excellence, character,
+            leadership and holistic development.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('about') }}"
+                class="btn btn-primary"
+            >
+                Discover Our School
+            </a>
+
+            <a
+                href="{{ url_for('academics') }}"
+                class="btn btn-secondary"
+            >
+                Explore Academics
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PATHWAYS SECTION
+========================================================= -->
+
+<section class="pathways-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            CBC EDUCATION
+        </p>
+
+        <h2>
+            Senior School Pathways
+        </h2>
+
+        <p>
+            Explore different learning pathways and discover
+            subjects, programmes and learning resources.
+        </p>
+
+    </div>
+
+
+    <div class="pathways-grid">
+
+        {% for pathway_key, pathway in pathways.items() %}
+
+        <a
+            href="{{ url_for('pathway_page', pathway_key=pathway_key) }}"
+            class="pathway-card pathway-{{ pathway_key }}"
+        >
+
+            <div class="pathway-number">
+                {{ "%02d" | format(loop.index) }}
+            </div>
+
+            <div class="pathway-content">
+
+                <span class="pathway-label">
+                    LEARNING PATHWAY
+                </span>
+
+                <h3>
+                    {{ pathway.title }}
+                </h3>
+
+                <p>
+                    {{ pathway.description }}
+                </p>
+
+                <span class="pathway-link">
+                    Explore {{ pathway.title }} →
+                </span>
+
+            </div>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCHOOL INFORMATION
+========================================================= -->
+
+<section class="school-info-section">
+
+    <div class="school-info-image">
+
+        <img
+            src="{{ url_for('static', filename='images/school.jpg') }}"
+            alt="Friends School Mbale"
+        >
+
+    </div>
+
+
+    <div class="school-info-content">
+
+        <p class="eyebrow">
+            ABOUT OUR SCHOOL
+        </p>
+
+        <h2>
+            Building the Leaders of Tomorrow
+        </h2>
+
+        <p>
+            Friends School Mbale provides an environment
+            where learners can develop academically,
+            socially, creatively and physically.
+        </p>
+
+        <div class="info-grid">
+
+            <div>
+                <strong>📍</strong>
+                <span>Vihiga County</span>
+            </div>
+
+            <div>
+                <strong>🏫</strong>
+                <span>Public Boys' Boarding School</span>
+            </div>
+
+            <div>
+                <strong>📚</strong>
+                <span>CBC Senior School</span>
+            </div>
+
+            <div>
+                <strong>🎓</strong>
+                <span>Academic Excellence</span>
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('about') }}"
+            class="text-link"
+        >
+            Learn More About Us →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CALL TO ACTION
+========================================================= -->
+
+<section class="cta-section">
+
+    <div>
+
+        <p class="eyebrow">
+            FRIENDS SCHOOL MBALE
+        </p>
+
+        <h2>
+            Discover Your Potential.
+        </h2>
+
+        <p>
+            Explore our academic programmes, learning
+            resources and senior school pathways.
+        </p>
+
+    </div>
+
+    <a
+        href="{{ url_for('academics') }}"
+        class="btn btn-primary"
+    >
+        Explore Academics →
+    </a>
+
+</section>
+
+{% endblock %}

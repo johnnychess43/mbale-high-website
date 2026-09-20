@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ subject.name }} | {{ pathway.title }} | Friends School Mbale
+{% endblock %}
+
+{% block content %}
+
+<section class="subject-page subject-{{ pathway_key }}">
+
+    <!-- ================= SUBJECT HERO ================= -->
+
+    <div class="subject-hero">
+
+        <div class="subject-hero-content">
+
+            <a
+                href="{{ url_for(
+                    'pathway_page',
+                    pathway_key=pathway_key
+                ) }}"
+                class="back-button"
+            >
+                ← Back to {{ pathway.title }}
+            </a>
+
+            <span class="subject-label">
+                {{ pathway.title }}
+            </span>
+
+            <h1>
+                {{ subject.name }}
+            </h1>
+
+            <p>
+                {{ subject.description }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RESOURCE SECTION ================= -->
+
+    <section class="resource-section">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                LEARNING CENTRE
+            </p>
+
+            <h2>
+                {{ subject.name }} Resources
+            </h2>
+
+            <p>
+                Choose the type of resource you want to explore.
+            </p>
+
+        </div>
+
+
+        <!-- ================= RESOURCE CARDS ================= -->
+
+        <div class="resource-grid">
+
+            {% for resource_key, resource in resource_types.items() %}
+
+            <a
+                href="{{ url_for(
+                    'learning_resource_page',
+                    pathway_key=pathway_key,
+                    subject_key=subject_key,
+                    resource_key=resource_key
+                ) }}"
+                class="resource-card"
+            >
+
+                <div class="resource-icon">
+
+                    {% if resource_key == "materials" %}
+                        📚
+
+                    {% elif resource_key == "notes" %}
+                        📝
+
+                    {% elif resource_key == "revision" %}
+                        🔄
+
+                    {% elif resource_key == "assignments" %}
+                        📋
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="resource-number">
+
+                    {{ "%02d" | format(loop.index) }}
+
+                </div>
+
+
+                <div class="resource-content">
+
+                    <h3>
+                        {{ resource.title }}
+                    </h3>
+
+                    <p>
+                        {{ resource.description }}
+                    </p>
+
+                    <span class="resource-button">
+                        Open {{ resource.title }} →
+                    </span>
+
+                </div>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}
