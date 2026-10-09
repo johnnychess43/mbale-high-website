@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Friends School Mbale{% endblock %}
+
+{% block content %}
+
+<section style="
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+">
+
+    <div>
+        <h1 style="font-size: 90px; margin: 0;">500</h1>
+
+        <h2>Something Went Wrong</h2>
+
+        <p>
+            Sorry, the server encountered an error.
+            Please try again later.
+        </p>
+
+        <a href="{{ url_for('home') }}"
+           style="
+               display: inline-block;
+               margin-top: 20px;
+               padding: 14px 28px;
+               background: #071a33;
+               color: white;
+               text-decoration: none;
+               border-radius: 8px;
+           ">
+            Back to Home
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

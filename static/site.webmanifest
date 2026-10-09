@@ -1,0 +1,25 @@
+
+{
+  "name": "Friends School – Mbale",
+  "short_name": "Friends Mbale",
+  "description": "Official website of Friends School – Mbale",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#123B70",
+  "icons": [
+    {
+      "src": "/static/images/school-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/school-icon-.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
