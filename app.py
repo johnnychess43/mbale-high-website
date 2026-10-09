@@ -1,7 +1,10 @@
-from flask import Flask, render_template
+import os
+
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
+app.secret_key = os.environ.get("SECRET_KEY")
 
 # ============================================================
 # SCHOOL INFORMATION
@@ -642,6 +645,7 @@ def learning_resource_page(
     )
 
 
+
 # ============================================================
 # 404 ERROR HANDLER
 # ============================================================
@@ -672,9 +676,54 @@ def internal_server_error(error):
     ), 500
 
 
+# =========================
+# ADMIN PORTAL
+# =========================
+
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+
+    if request.method == "POST":
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+
+            session["admin_logged_in"] = True
+
+            return redirect(url_for("admin_dashboard"))
+
+        return render_template(
+            "admin_login.html",
+            error="Invalid username or password."
+        )
+
+    return render_template("admin_login.html")
+
+
+@app.route("/admin")
+def admin_dashboard():
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    return render_template("admin_dashboard.html")
+
+
+@app.route("/admin/logout")
+def admin_logout():
+
+    session.pop("admin_logged_in", None)
+    return redirect(url_for("admin_login"))
+
 # ============================================================
 # RUN WEBSITE
 # ============================================================
+
 
 if __name__ == "__main__":
 

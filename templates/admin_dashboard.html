@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Friends School Mbale</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .header {
+            background: #063970;
+            color: white;
+            padding: 20px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .logout {
+            background: #d32f2f;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            color: #063970;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .icon {
+            font-size: 40px;
+        }
+
+        .card h3 {
+            color: #063970;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card button {
+            border: none;
+            background: #063970;
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background: #0b5fa5;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .logout {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <h1>
+        🏫 Friends School Mbale
+    </h1>
+
+    <a
+        href="{{ url_for('admin_logout') }}"
+        class="logout"
+    >
+        Logout
+    </a>
+
+</header>
+
+
+<main class="container">
+
+
+    <section class="welcome">
+
+        <h2>
+            Admin Dashboard
+        </h2>
+
+        <p>
+            Welcome to the Friends School Mbale
+            administration portal.
+        </p>
+
+    </section>
+
+
+    <section class="dashboard-grid">
+
+
+        <!-- NEWS -->
+
+        <div class="card">
+
+            <div class="icon">
+                📰
+            </div>
+
+            <h3>
+                News
+            </h3>
+
+            <p>
+                Create, edit and manage school news
+                and important updates.
+            </p>
+
+            <button>
+                Manage News
+            </button>
+
+        </div>
+
+
+        <!-- ANNOUNCEMENTS -->
+
+        <div class="card">
+
+            <div class="icon">
+                📢
+            </div>
+
+            <h3>
+                Announcements
+            </h3>
+
+            <p>
+                Publish important announcements
+                for students, parents and staff.
+            </p>
+
+            <button>
+                Manage Announcements
+            </button>
+
+        </div>
+
+
+        <!-- GALLERY -->
+
+        <div class="card">
+
+            <div class="icon">
+                🖼️
+            </div>
+
+            <h3>
+                Gallery
+            </h3>
+
+            <p>
+                Upload and manage school photographs
+                and events.
+            </p>
+
+            <button>
+                Manage Gallery
+            </button>
+
+        </div>
+
+
+        <!-- LEARNING -->
+
+        <div class="card">
+
+            <div class="icon">
+                📚
+            </div>
+
+            <h3>
+                Learning Resources
+            </h3>
+
+            <p>
+                Manage notes, assignments,
+                revision questions and materials.
+            </p>
+
+            <button>
+                Manage Resources
+            </button>
+
+        </div>
+
+
+        <!-- PAYMENTS -->
+
+        <div class="card">
+
+            <div class="icon">
+                💳
+            </div>
+
+            <h3>
+                Payments
+            </h3>
+
+            <p>
+                Manage official school payment
+                information.
+            </p>
+
+            <button>
+                Manage Payments
+            </button>
+
+        </div>
+
+
+        <!-- SCHOOL INFORMATION -->
+
+        <div class="card">
+
+            <div class="icon">
+                🏫
+            </div>
+
+            <h3>
+                School Information
+            </h3>
+
+            <p>
+                Update school details, contact
+                information and administration data.
+            </p>
+
+            <button>
+                School Settings
+            </button>
+
+        </div>
+
+
+        <!-- PATHWAYS -->
+
+        <div class="card">
+
+            <div class="icon">
+                🎓
+            </div>
+
+            <h3>
+                Senior School Pathways
+            </h3>
+
+            <p>
+                Manage STEM, Social Sciences,
+                Arts and Sports pathways.
+            </p>
+
+            <button>
+                Manage Pathways
+            </button>
+
+        </div>
+
+
+        <!-- USERS -->
+
+        <div class="card">
+
+            <div class="icon">
+                👥
+            </div>
+
+            <h3>
+                Users & Accounts
+            </h3>
+
+            <p>
+                Manage administrators and
+                authorised school users.
+            </p>
+
+            <button>
+                Manage Users
+            </button>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <div class="card">
+
+            <div class="icon">
+                ⚙️
+            </div>
+
+            <h3>
+                Website Settings
+            </h3>
+
+            <p>
+                Manage website configuration
+                and administration settings.
+            </p>
+
+            <button>
+                Settings
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+    <div class="footer">
+
+        Friends School Mbale
+        • Administration Portal
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>
