@@ -1,10 +1,9 @@
 import os
+import secrets
 
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-
-import secrets
 
 # Keep sessions working locally even when SECRET_KEY has not been configured.
 # Set SECRET_KEY in Render for a stable production session key across restarts/workers.
