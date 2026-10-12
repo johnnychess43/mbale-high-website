@@ -540,21 +540,23 @@ def home():
 
 @app.route("/about")
 def about():
-
-    return render_template(
-        "about.html",
-        school=SCHOOL
-    )
+    with db_connect() as connection:
+        school_updates = connection.execute(
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("school",)
+        ).fetchall()
+    return render_template("about.html", school=SCHOOL, school_updates=school_updates)
 
 
 @app.route("/academics")
 def academics():
     with db_connect() as connection:
         learning_items = connection.execute(
-            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC",
-            ("resources",)
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("resources",)
         ).fetchall()
-    return render_template("academics.html", school=SCHOOL, pathways=PATHWAYS, learning_items=learning_items)
+        pathway_updates = connection.execute(
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("pathways",)
+        ).fetchall()
+    return render_template("academics.html", school=SCHOOL, pathways=PATHWAYS, learning_items=learning_items, pathway_updates=pathway_updates)
 
 
 @app.route("/news")
@@ -592,12 +594,11 @@ def contact():
 
 @app.route("/fees")
 def fees():
-
-    return render_template(
-        "fees.html",
-        school=SCHOOL,
-        payment_info=PAYMENT_INFO
-    )
+    with db_connect() as connection:
+        payment_updates = connection.execute(
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("payments",)
+        ).fetchall()
+    return render_template("fees.html", school=SCHOOL, payment_info=PAYMENT_INFO, payment_updates=payment_updates)
 
 
 # ============================================================
@@ -824,7 +825,7 @@ ADMIN_SECTIONS = {
     "payments": {"title": "Manage Payments", "description": "Store payment notices and verified payment information. Only publish official account details after confirming them with the school.", "public_endpoint": "fees", "public_label": "payments"},
     "school": {"title": "School Information Settings", "description": "Add and maintain school profile updates, contacts and information notices.", "public_endpoint": "about", "public_label": "school profile"},
     "pathways": {"title": "Manage Senior School Pathways", "description": "Add pathway information, subjects and curriculum updates.", "public_endpoint": "academics", "public_label": "academics"},
-    "users": {"title": "Manage Users & Accounts", "description": "Create named administrator accounts with password hashes, change account roles, or remove accounts.", "public_endpoint": None, "public_label": None},
+    "users": {"title": "Manage Users & Accounts", "description": "Create administrator accounts with securely hashed passwords, assign roles and remove accounts.", "public_endpoint": None, "public_label": None},
     "settings": {"title": "Website Settings", "description": "Maintain website notices and operational notes. Hosting secrets such as SECRET_KEY remain in Render environment settings.", "public_endpoint": None, "public_label": None},
 }
 
@@ -849,6 +850,19 @@ def admin_section(section_key):
     if section_key == "users":
         if request.method == "POST":
             action = request.form.get("action", "create")
+            if action == "update-role":
+                user_id = request.form.get("user_id", type=int)
+                role = request.form.get("role") or "editor"
+                if role not in ("admin", "editor"):
+                    role = "editor"
+                with db_connect() as connection:
+                    target = connection.execute("SELECT username FROM admin_users WHERE id = ?", (user_id,)).fetchone()
+                    if target and target["username"] == session.get("admin_username"):
+                        flash("You cannot change the role of the account currently in use.", "error")
+                    elif target:
+                        connection.execute("UPDATE admin_users SET role = ? WHERE id = ?", (role, user_id))
+                        flash("Account role updated.", "success")
+                return redirect(url_for("admin_section", section_key="users"))
             if action == "delete":
                 user_id = request.form.get("user_id", type=int)
                 with db_connect() as connection:
