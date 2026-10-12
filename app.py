@@ -1,6 +1,7 @@
 import os
 import secrets
 import sqlite3
+from contextlib import contextmanager
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
@@ -18,11 +19,17 @@ app.config["UPLOAD_FOLDER"] = os.environ.get("UPLOAD_FOLDER") or os.path.join(ap
 ALLOWED_UPLOADS = {"pdf", "epub", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "jpg", "jpeg", "png", "webp", "gif"}
 
 
+@contextmanager
 def db_connect():
-    os.makedirs(os.path.dirname(app.config["DATABASE_PATH"]), exist_ok=True)
+    database_directory = os.path.dirname(app.config["DATABASE_PATH"])
+    if database_directory:
+        os.makedirs(database_directory, exist_ok=True)
     connection = sqlite3.connect(app.config["DATABASE_PATH"])
     connection.row_factory = sqlite3.Row
-    return connection
+    try:
+        yield connection
+    finally:
+        connection.close()
 
 
 def init_admin_storage():
