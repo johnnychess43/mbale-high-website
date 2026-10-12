@@ -25,7 +25,7 @@
     </section>
     <section class="admin-panel"><h2>Existing accounts</h2>
       {% if users %}
-        <div class="admin-items">{% for user in users %}<article class="admin-item"><div><h3>{{ user.username }}</h3><p>Role: {{ user.role }} · Created: {{ user.created_at }}</p></div><form method="post" onsubmit="return confirm('Delete this account?');"><input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="{{ user.id }}"><button class="admin-btn danger" type="submit">Delete</button></form></article>{% endfor %}</div>
+        <div class="admin-items">{% for user in users %}<article class="admin-item"><div><h3>{{ user.username }}</h3><p>Role: {{ user.role }} · Created: {{ user.created_at }}</p><form method="post" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px"><input type="hidden" name="action" value="update-role"><input type="hidden" name="user_id" value="{{ user.id }}"><label for="role-{{ user.id }}">Change role</label><select id="role-{{ user.id }}" name="role"><option value="editor" {{ 'selected' if user.role == 'editor' else '' }}>Editor</option><option value="admin" {{ 'selected' if user.role == 'admin' else '' }}>Administrator</option></select><button class="admin-btn secondary" type="submit">Save Role</button></form></div><form method="post" onsubmit="return confirm('Delete this account?');"><input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="{{ user.id }}"><button class="admin-btn danger" type="submit">Delete</button></form></article>{% endfor %}</div>
       {% else %}<p class="muted">No database-created accounts yet. The environment-configured admin account is not listed here.</p>{% endif %}
     </section>
   {% else %}
