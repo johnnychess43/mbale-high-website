@@ -1,24 +1,62 @@
 {% extends "base.html" %}
-
 {% block title %}{{ section.title }} | Admin | Friends School Mbale{% endblock %}
-
 {% block content %}
-<section class="section" style="max-width: 1050px; margin: 0 auto; padding: 32px 18px;">
-    <p class="eyebrow">ADMINISTRATION PORTAL</p>
-    <h1 style="color:#063970;">{{ section.title }}</h1>
-    <p>{{ section.description }}</p>
-
-    <div style="background:#fff; border:1px solid #dbe4ef; border-radius:14px; padding:22px; margin:24px 0; box-shadow:0 5px 18px rgba(0,0,0,.06);">
-        <h2 style="margin-top:0; color:#063970;">Section overview</h2>
-        <p>{{ section.status }}</p>
-        {% if section.public_endpoint %}
-        <p><a href="{{ url_for(section.public_endpoint) }}">Open the public {{ section.public_label }} page ↗</a></p>
-        {% endif %}
-    </div>
-
-    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
-        <a href="{{ url_for('admin_dashboard') }}" style="display:inline-block; background:#063970; color:#fff; text-decoration:none; padding:12px 18px; border-radius:8px; font-weight:700;">← Back to Dashboard</a>
-        <a href="{{ url_for('admin_logout') }}" style="display:inline-block; background:#b42318; color:#fff; text-decoration:none; padding:12px 18px; border-radius:8px; font-weight:700;">Logout</a>
-    </div>
-</section>
+<style>
+.admin-wrap{max-width:1100px;margin:0 auto;padding:28px 16px 48px}.admin-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.admin-head h1{color:#063970;margin:.25rem 0}.admin-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-btn{display:inline-block;border:0;border-radius:8px;padding:10px 14px;background:#063970;color:#fff;text-decoration:none;font-weight:700;cursor:pointer}.admin-btn.secondary{background:#526579}.admin-btn.danger{background:#b42318}.admin-panel{background:#fff;border:1px solid #dbe4ef;border-radius:14px;padding:20px;margin:20px 0;box-shadow:0 5px 18px rgba(0,0,0,.05)}.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.admin-form .full{grid-column:1/-1}.admin-form label{display:block;font-weight:700;margin-bottom:6px}.admin-form input,.admin-form textarea,.admin-form select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}.admin-form textarea{min-height:100px;resize:vertical}.admin-items{display:grid;gap:12px}.admin-item{border:1px solid #e2e8f0;border-radius:10px;padding:15px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.admin-item h3{margin:0 0 6px;color:#063970}.admin-item p{margin:6px 0;white-space:pre-wrap}.admin-item-actions{display:flex;gap:8px;flex-wrap:wrap}.notice{padding:12px 14px;border-radius:8px;margin:12px 0;background:#e8f5e9}.notice.error{background:#ffebee}.muted{color:#64748b}.admin-file{max-width:110px;max-height:90px;object-fit:cover;border-radius:7px;display:block;margin-top:8px}@media(max-width:650px){.admin-form{grid-template-columns:1fr}.admin-form .full{grid-column:auto}.admin-panel{padding:15px}.admin-item{display:block}.admin-item-actions{margin-top:12px}}
+</style>
+<div class="admin-wrap">
+  <div class="admin-head">
+    <div><p class="eyebrow">ADMINISTRATION PORTAL</p><h1>{{ section.title }}</h1><p>{{ section.description }}</p></div>
+    <div class="admin-actions"><a class="admin-btn secondary" href="{{ url_for('admin_dashboard') }}">← Dashboard</a><a class="admin-btn danger" href="{{ url_for('admin_logout') }}">Logout</a></div>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="notice {{ 'error' if category == 'error' else '' }}">{{ message }}</div>{% endfor %}
+  {% endwith %}
+  {% if section_key == 'users' %}
+    <section class="admin-panel">
+      <h2>Create an administrator account</h2>
+      <p class="muted">Use a unique username and a password of at least 10 characters. Passwords are stored as secure hashes.</p>
+      <form method="post" class="admin-form">
+        <div><label for="username">Username</label><input id="username" name="username" required autocomplete="off"></div>
+        <div><label for="password">Temporary password</label><input id="password" name="password" type="password" minlength="10" required autocomplete="new-password"></div>
+        <div><label for="role">Role</label><select id="role" name="role"><option value="editor">Editor</option><option value="admin">Administrator</option></select></div>
+        <div class="full"><button class="admin-btn" type="submit">Create Account</button></div>
+      </form>
+    </section>
+    <section class="admin-panel"><h2>Existing accounts</h2>
+      {% if users %}
+        <div class="admin-items">{% for user in users %}<article class="admin-item"><div><h3>{{ user.username }}</h3><p>Role: {{ user.role }} · Created: {{ user.created_at }}</p></div><form method="post" onsubmit="return confirm('Delete this account?');"><input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="{{ user.id }}"><button class="admin-btn danger" type="submit">Delete</button></form></article>{% endfor %}</div>
+      {% else %}<p class="muted">No database-created accounts yet. The environment-configured admin account is not listed here.</p>{% endif %}
+    </section>
+  {% else %}
+    <section class="admin-panel" id="editor">
+      <h2>{{ 'Edit item' if edit_item else 'Add new item' }}</h2>
+      <p class="muted">Use this form to add text, attach a file/photo, or link to an online resource. Maximum upload size: 25 MB. Allowed files include PDF, EPUB, Word/PowerPoint/Excel and common image formats.</p>
+      <form method="post" enctype="multipart/form-data" class="admin-form">
+        <input type="hidden" name="action" value="{{ 'update' if edit_item else 'create' }}">
+        {% if edit_item %}<input type="hidden" name="item_id" value="{{ edit_item.id }}">{% endif %}
+        <div class="full"><label for="title">Title / name *</label><input id="title" name="title" required maxlength="180" value="{{ edit_item.title if edit_item else '' }}" placeholder="e.g. Form 3 Biology Revision Questions"></div>
+        <div class="full"><label for="description">Description / details</label><textarea id="description" name="description" maxlength="5000" placeholder="Add details, subject, class, term or instructions">{{ edit_item.description if edit_item else '' }}</textarea></div>
+        <div class="full"><label for="url">External link (optional)</label><input id="url" name="url" type="url" value="{{ edit_item.url if edit_item else '' }}" placeholder="https://..."></div>
+        <div class="full"><label for="file">Attach file or photo (optional)</label><input id="file" name="file" type="file" accept=".pdf,.epub,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.webp,.gif">{% if edit_item and edit_item.file_path %}<p class="muted">Current file: <a href="{{ url_for('static', filename=edit_item.file_path) }}" target="_blank" rel="noopener">Open current attachment</a>. Leave the upload empty to keep it.</p>{% endif %}</div>
+        <div class="full"><button class="admin-btn" type="submit">{{ 'Save Changes' if edit_item else 'Add to ' + section.title }}</button>{% if edit_item %} <a class="admin-btn secondary" href="{{ url_for('admin_section', section_key=section_key) }}">Cancel</a>{% endif %}</div>
+      </form>
+    </section>
+    <section class="admin-panel"><h2>Saved items ({{ items|length }})</h2>
+      {% if items %}
+        <div class="admin-items">{% for item in items %}
+          <article class="admin-item">
+            <div style="flex:1;min-width:220px"><h3>{{ item.title }}</h3><p>{{ item.description or 'No description added.' }}</p>
+              {% if item.url %}<p><a href="{{ item.url }}" target="_blank" rel="noopener">Open external link ↗</a></p>{% endif %}
+              {% if item.file_path %}{% set attachment_url = url_for('static', filename=item.file_path) %}{% if item.file_path.lower().endswith(('.png','.jpg','.jpeg','.webp','.gif')) %}<a href="{{ attachment_url }}" target="_blank" rel="noopener"><img class="admin-file" src="{{ attachment_url }}" alt="{{ item.title }}"></a>{% else %}<p><a href="{{ attachment_url }}" target="_blank" rel="noopener">Open/download attachment ↗</a></p>{% endif %}{% endif %}
+              <small class="muted">Added {{ item.created_at }}</small>
+            </div>
+            <div class="admin-item-actions"><a class="admin-btn" href="{{ url_for('admin_section', section_key=section_key, edit=item.id) }}#editor">Edit</a><form method="post" onsubmit="return confirm('Delete this item permanently?');"><input type="hidden" name="action" value="delete"><input type="hidden" name="item_id" value="{{ item.id }}"><button class="admin-btn danger" type="submit">Delete</button></form></div>
+          </article>
+        {% endfor %}</div>
+      {% else %}<p class="muted">Nothing has been added here yet. Use the form above to add the first item.</p>{% endif %}
+    </section>
+  {% endif %}
+  {% if section.public_endpoint %}<p><a href="{{ url_for(section.public_endpoint) }}">Open public {{ section.public_label }} page ↗</a></p>{% endif %}
+</div>
 {% endblock %}
