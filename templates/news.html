@@ -34,77 +34,10 @@ News | {{ school.name }}
             <span class="read-more">{{ 'Announcement' if item.section == 'announcements' else 'School Update' }} →</span>
         </article>
         {% endfor %}
-        <article class="news-card">
-
-            <div class="news-date">
-                2025
-            </div>
-
-            <h2>
-                Education Stakeholder Engagement
-            </h2>
-
-            <p>
-                Education stakeholders in Vihiga County have
-                continued engaging on issues affecting schools,
-                learners and education development.
-            </p>
-
-            <span class="read-more">
-                Community Update →
-            </span>
-
-        </article>
-
-
-        <article class="news-card">
-
-            <div class="news-date">
-                CBC
-            </div>
-
-            <h2>
-                Senior School Pathways
-            </h2>
-
-            <p>
-                The senior school structure provides pathways
-                designed to allow learners to develop their
-                interests, abilities and career aspirations.
-            </p>
-
-            <span class="read-more">
-                Academic Update →
-            </span>
-
-        </article>
-
-
-        <article class="news-card">
-
-            <div class="news-date">
-                SCHOOL
-            </div>
-
-            <h2>
-                School Announcements
-            </h2>
-
-            <p>
-                This section can be used for official school
-                announcements, examination notices,
-                events and important dates.
-            </p>
-
-            <span class="read-more">
-                More Updates →
-            </span>
-
-        </article>
 
     </div>
 
-    {% if not news_items %}<p class="section-note">New stories and announcements will appear here when the school administrator publishes them.</p>{% endif %}
+    {% if not news_items %}<p class="section-note">No news or announcements have been published yet. Please check back soon.</p>{% endif %}
 </section>
 
 {% endblock %}
