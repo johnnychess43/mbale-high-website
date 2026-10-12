@@ -177,3 +177,28 @@ def test_editor_cannot_manage_sensitive_admin_sections(client):
     assert login.status_code == 302
     assert client.get("/admin/sections/users").status_code == 403
     assert client.get("/admin/sections/payments").status_code == 403
+
+
+
+def test_school_profile_and_payment_settings_save_to_public_pages(client):
+    client.post("/admin/login", data={"username": "test-admin", "password": "test-password"})
+    school_data = dict(website.SCHOOL)
+    school_data.update({"action": "save-config", "principal": "New Principal"})
+    saved_school = client.post("/admin/sections/school", data=school_data, follow_redirects=True)
+    assert saved_school.status_code == 200
+    assert b"School profile settings saved" in saved_school.data
+    assert b"New Principal" in client.get("/about").data
+
+    payment_response = client.post("/admin/sections/payments", data={
+        "action": "save-config",
+        "mpesa_paybill": "123456",
+        "kcb_account_number": "KCB123",
+        "bank_name": "Example Bank",
+        "bank_account_name": "Friends School Mbale",
+        "bank_account_number": "BANK123",
+        "bank_branch": "Vihiga",
+    }, follow_redirects=True)
+    assert payment_response.status_code == 200
+    public_fees = client.get("/fees")
+    assert b"123456" in public_fees.data
+    assert b"KCB123" in public_fees.data
