@@ -2,6 +2,12 @@
 
 {% block title %}
 Academics | {{ school.name }}
+{% if pathway_updates %}
+<section class="section">
+  <div class="section-heading"><p class="eyebrow">PATHWAY UPDATES</p><h2>Senior School Notices</h2></div>
+  <div class="news-grid">{% for item in pathway_updates %}<article class="news-card"><h3>{{ item.title }}</h3><p>{{ item.description }}</p>{% if item.url %}<p><a href="{{ item.url }}" target="_blank" rel="noopener">More details ↗</a></p>{% endif %}{% if item.file_path %}<p><a href="{{ url_for('static', filename=item.file_path) }}" target="_blank" rel="noopener">Open attachment ↗</a></p>{% endif %}</article>{% endfor %}</div>
+</section>
+{% endif %}
 {% if learning_items %}
 <section class="section">
     <div class="section-heading">
