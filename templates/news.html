@@ -24,6 +24,16 @@ News | {{ school.name }}
 
     <div class="news-grid">
 
+{% for item in news_items %}
+        <article class="news-card">
+            <div class="news-date">{{ 'ANNOUNCEMENT' if item.section == 'announcements' else 'SCHOOL NEWS' }}</div>
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
+            {% if item.file_path %}<p><a href="{{ url_for('static', filename=item.file_path) }}" target="_blank" rel="noopener">Open attachment ↗</a></p>{% endif %}
+            {% if item.url %}<p><a href="{{ item.url }}" target="_blank" rel="noopener">Read more ↗</a></p>{% endif %}
+            <span class="read-more">{{ 'Announcement' if item.section == 'announcements' else 'School Update' }} →</span>
+        </article>
+        {% endfor %}
         <article class="news-card">
 
             <div class="news-date">
@@ -94,6 +104,7 @@ News | {{ school.name }}
 
     </div>
 
+    {% if not news_items %}<p class="section-note">New stories and announcements will appear here when the school administrator publishes them.</p>{% endif %}
 </section>
 
 {% endblock %}
