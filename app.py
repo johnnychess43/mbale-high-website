@@ -570,7 +570,7 @@ def home():
 
     return render_template(
         "index.html",
-        school=SCHOOL,
+        school=current_school(),
         pathways=PATHWAYS
     )
 
@@ -593,7 +593,7 @@ def academics():
         pathway_updates = connection.execute(
             "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("pathways",)
         ).fetchall()
-    return render_template("academics.html", school=SCHOOL, pathways=PATHWAYS, learning_items=learning_items, pathway_updates=pathway_updates)
+    return render_template("academics.html", school=current_school(), pathways=PATHWAYS, learning_items=learning_items, pathway_updates=pathway_updates)
 
 
 @app.route("/news")
@@ -603,7 +603,7 @@ def news():
             "SELECT * FROM content_items WHERE section IN (?, ?) ORDER BY id DESC",
             ("news", "announcements")
         ).fetchall()
-    return render_template("news.html", school=SCHOOL, news_items=news_items)
+    return render_template("news.html", school=current_school(), news_items=news_items)
 
 
 @app.route("/gallery")
@@ -613,7 +613,7 @@ def gallery():
             "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC",
             ("gallery",)
         ).fetchall()
-    return render_template("gallery.html", school=SCHOOL, gallery_items=gallery_items)
+    return render_template("gallery.html", school=current_school(), gallery_items=gallery_items)
 
 
 @app.route("/contact")
@@ -621,7 +621,7 @@ def contact():
 
     return render_template(
         "contact.html",
-        school=SCHOOL
+        school=current_school()
     )
 
 
@@ -651,7 +651,7 @@ def pathway_page(pathway_key):
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message="The requested pathway was not found."
         ), 404
 
@@ -659,7 +659,7 @@ def pathway_page(pathway_key):
         "pathway.html",
         pathway=pathway,
         pathway_key=pathway_key,
-        school=SCHOOL
+        school=current_school()
     )
 
 
@@ -676,7 +676,7 @@ def subject_page(pathway_key, subject_key):
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message="The requested pathway was not found."
         ), 404
 
@@ -686,7 +686,7 @@ def subject_page(pathway_key, subject_key):
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message="The requested subject was not found."
         ), 404
 
@@ -697,7 +697,7 @@ def subject_page(pathway_key, subject_key):
         subject=subject,
         subject_key=subject_key,
         resource_types=RESOURCE_TYPES,
-        school=SCHOOL
+        school=current_school()
     )
 
 
@@ -720,7 +720,7 @@ def learning_resource_page(
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message="The requested pathway was not found."
         ), 404
 
@@ -730,7 +730,7 @@ def learning_resource_page(
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message="The requested subject was not found."
         ), 404
 
@@ -740,7 +740,7 @@ def learning_resource_page(
 
         return render_template(
             "404.html",
-            school=SCHOOL,
+            school=current_school(),
             message=(
                 "The requested learning resource "
                 "was not found."
@@ -761,7 +761,7 @@ def learning_resource_page(
         resource=resource,
         resource_key=resource_key,
         links=links,
-        school=SCHOOL
+        school=current_school()
     )
 
 
