@@ -165,6 +165,7 @@ def test_admin_can_upload_learning_material(client):
 
 
 def test_editor_cannot_manage_sensitive_admin_sections(client):
+    client.post("/admin/login", data={"username": "test-admin", "password": "test-password"})
     client.post("/admin/sections/users", data={
         "username": "limited-editor", "password": "long-secure-password",
         "role": "editor"
