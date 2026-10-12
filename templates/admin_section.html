@@ -29,6 +29,34 @@
       {% else %}<p class="muted">No database-created accounts yet. The environment-configured admin account is not listed here.</p>{% endif %}
     </section>
   {% else %}
+    {% if section_key == 'school' %}
+    <section class="admin-panel">
+      <h2>Edit live school profile</h2>
+      <p class="muted">These fields save to the database and update the public About page.</p>
+      <form method="post" class="admin-form">
+        <input type="hidden" name="action" value="save-config">
+        {% for key, label in [('name','Short school name'),('full_name','Full school name'),('county','County'),('sub_county','Sub-county'),('region','Region'),('type','School type'),('cluster','Cluster'),('knec','KNEC code'),('uic','UIC'),('phone','Phone'),('email','Email'),('principal','Principal')] %}
+        <div><label for="school-{{ key }}">{{ label }}</label><input id="school-{{ key }}" name="{{ key }}" value="{{ school_config.get(key, '') }}" required></div>
+        {% endfor %}
+        <div class="full"><button class="admin-btn" type="submit">Save School Profile</button></div>
+      </form>
+    </section>
+    {% elif section_key == 'payments' %}
+    <section class="admin-panel">
+      <h2>Edit live payment details</h2>
+      <p class="muted">Only enter account details confirmed by the school bursar. Saved details appear on the public Payments page.</p>
+      <form method="post" class="admin-form">
+        <input type="hidden" name="action" value="save-config">
+        <div><label for="mpesa_paybill">M-PESA PayBill</label><input id="mpesa_paybill" name="mpesa_paybill" value="{{ payment_config.mpesa.paybill }}" placeholder="Official PayBill number"></div>
+        <div><label for="kcb_account_number">KCB account number</label><input id="kcb_account_number" name="kcb_account_number" value="{{ payment_config.kcb.account_number }}" placeholder="Official KCB account"></div>
+        <div><label for="bank_name">Bank name</label><input id="bank_name" name="bank_name" value="{{ payment_config.bank.bank_name }}" placeholder="Bank name"></div>
+        <div><label for="bank_account_name">Bank account name</label><input id="bank_account_name" name="bank_account_name" value="{{ payment_config.bank.account_name }}" placeholder="Account name"></div>
+        <div><label for="bank_account_number">Bank account number</label><input id="bank_account_number" name="bank_account_number" value="{{ payment_config.bank.account_number }}" placeholder="Official account number"></div>
+        <div><label for="bank_branch">Bank branch</label><input id="bank_branch" name="bank_branch" value="{{ payment_config.bank.branch }}" placeholder="Branch"></div>
+        <div class="full"><button class="admin-btn" type="submit">Save Payment Details</button></div>
+      </form>
+    </section>
+    {% endif %}
     <section class="admin-panel" id="editor">
       <h2>{{ 'Edit item' if edit_item else 'Add new item' }}</h2>
       <p class="muted">Use this form to add text, attach a file/photo, or link to an online resource. Maximum upload size: 25 MB. Allowed files include PDF, EPUB, Word/PowerPoint/Excel and common image formats.</p>
