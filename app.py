@@ -538,12 +538,12 @@ def about():
 
 @app.route("/academics")
 def academics():
-
-    return render_template(
-        "academics.html",
-        school=SCHOOL,
-        pathways=PATHWAYS
-    )
+    with db_connect() as connection:
+        learning_items = connection.execute(
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC",
+            ("resources",)
+        ).fetchall()
+    return render_template("academics.html", school=SCHOOL, pathways=PATHWAYS, learning_items=learning_items)
 
 
 @app.route("/news")
@@ -832,6 +832,8 @@ def admin_section(section_key):
     section = ADMIN_SECTIONS.get(section_key)
     if section is None:
         return render_template("404.html", school=SCHOOL, message="The requested admin section was not found."), 404
+    if session.get("admin_role") == "editor" and section_key in ("users", "settings", "payments", "school"):
+        return render_template("404.html", school=SCHOOL, message="Your account does not have permission to manage this section."), 403
 
     if section_key == "users":
         if request.method == "POST":
