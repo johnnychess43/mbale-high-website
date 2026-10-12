@@ -7,7 +7,7 @@
 <div class="admin-wrap">
   <div class="admin-head">
     <div><p class="eyebrow">ADMINISTRATION PORTAL</p><h1>{{ section.title }}</h1><p>{{ section.description }}</p></div>
-    <div class="admin-actions"><a class="admin-btn secondary" href="{{ url_for('admin_dashboard') }}">← Dashboard</a><a class="admin-btn danger" href="{{ url_for('admin_logout') }}">Logout</a></div>
+    <div class="admin-actions"><a class="admin-btn secondary" href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a><a class="admin-btn danger" href="{{ url_for('admin_logout') }}">Logout</a></div>
   </div>
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}<div class="notice {{ 'error' if category == 'error' else '' }}">{{ message }}</div>{% endfor %}
