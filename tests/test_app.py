@@ -80,3 +80,41 @@ def test_admin_rejects_invalid_credentials(client):
     )
     assert response.status_code == 200
     assert b"Invalid username or password" in response.data
+
+
+def test_admin_sections_require_login(client):
+    for section_key in website.ADMIN_SECTIONS:
+        response = client.get(f"/admin/sections/{section_key}")
+        assert response.status_code == 302
+        assert "/admin/login" in response.headers["Location"]
+
+
+def test_all_admin_sections_render_after_login(client):
+    client.post(
+        "/admin/login",
+        data={"username": "test-admin", "password": "test-password"},
+    )
+    for section_key, section in website.ADMIN_SECTIONS.items():
+        response = client.get(f"/admin/sections/{section_key}")
+        assert response.status_code == 200, section_key
+        assert section["title"].encode() in response.data
+        assert b"Back to Dashboard" in response.data
+
+
+def test_unknown_admin_section_returns_404_after_login(client):
+    client.post(
+        "/admin/login",
+        data={"username": "test-admin", "password": "test-password"},
+    )
+    assert client.get("/admin/sections/not-a-section").status_code == 404
+
+
+def test_dashboard_has_links_for_all_admin_sections(client):
+    client.post(
+        "/admin/login",
+        data={"username": "test-admin", "password": "test-password"},
+    )
+    response = client.get("/admin")
+    assert response.status_code == 200
+    for section_key in website.ADMIN_SECTIONS:
+        assert f"/admin/sections/{section_key}".encode() in response.data
