@@ -98,20 +98,26 @@
             line-height: 1.5;
         }
 
-        .card button {
+        .card-link {
+            display: inline-block;
             border: none;
             background: #063970;
             color: white;
-
+            text-decoration: none;
             padding: 10px 16px;
-
             border-radius: 7px;
-
             cursor: pointer;
+            font-weight: 700;
+            line-height: 1.4;
+            transition: background .2s ease, transform .2s ease;
         }
 
-        .card button:hover {
+        .card-link:hover,
+        .card-link:focus-visible {
             background: #0b5fa5;
+            transform: translateY(-1px);
+            outline: 3px solid rgba(11, 95, 165, .25);
+            outline-offset: 2px;
         }
 
         .footer {
@@ -203,9 +209,7 @@
                 and important updates.
             </p>
 
-            <button>
-                Manage News
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='news') }}">Manage News →</a>
 
         </div>
 
@@ -227,9 +231,7 @@
                 for students, parents and staff.
             </p>
 
-            <button>
-                Manage Announcements
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='announcements') }}">Manage Announcements →</a>
 
         </div>
 
@@ -251,9 +253,7 @@
                 and events.
             </p>
 
-            <button>
-                Manage Gallery
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='gallery') }}">Manage Gallery →</a>
 
         </div>
 
@@ -275,9 +275,7 @@
                 revision questions and materials.
             </p>
 
-            <button>
-                Manage Resources
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='resources') }}">Manage Resources →</a>
 
         </div>
 
@@ -299,9 +297,7 @@
                 information.
             </p>
 
-            <button>
-                Manage Payments
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='payments') }}">Manage Payments →</a>
 
         </div>
 
@@ -323,9 +319,7 @@
                 information and administration data.
             </p>
 
-            <button>
-                School Settings
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='school') }}">School Settings →</a>
 
         </div>
 
@@ -347,9 +341,7 @@
                 Arts and Sports pathways.
             </p>
 
-            <button>
-                Manage Pathways
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='pathways') }}">Manage Pathways →</a>
 
         </div>
 
@@ -371,9 +363,7 @@
                 authorised school users.
             </p>
 
-            <button>
-                Manage Users
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='users') }}">Manage Users →</a>
 
         </div>
 
@@ -395,9 +385,7 @@
                 and administration settings.
             </p>
 
-            <button>
-                Settings
-            </button>
+            <a class="card-link" href="{{ url_for('admin_section', section_key='settings') }}">Settings →</a>
 
         </div>
 
