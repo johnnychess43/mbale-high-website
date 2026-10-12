@@ -4,8 +4,9 @@ import app as website
 
 
 @pytest.fixture()
-def client(monkeypatch):
-    website.app.config.update(TESTING=True, SECRET_KEY="test-session-secret")
+def client(monkeypatch, tmp_path):
+    website.app.config.update(TESTING=True, SECRET_KEY="test-session-secret", DATABASE_PATH=str(tmp_path / "test_admin.db"), UPLOAD_FOLDER=str(tmp_path / "uploads"))
+    website.init_admin_storage()
     monkeypatch.setattr(website, "ADMIN_USERNAME", "test-admin")
     monkeypatch.setattr(website, "ADMIN_PASSWORD", "test-password")
     with website.app.test_client() as test_client:
@@ -118,3 +119,60 @@ def test_dashboard_has_links_for_all_admin_sections(client):
     assert response.status_code == 200
     for section_key in website.ADMIN_SECTIONS:
         assert f"/admin/sections/{section_key}".encode() in response.data
+
+
+
+def test_admin_can_create_edit_and_delete_news_item(client):
+    client.post("/admin/login", data={"username": "test-admin", "password": "test-password"})
+    created = client.post("/admin/sections/news", data={
+        "action": "create", "title": "Sports Day", "description": "Annual sports day update"
+    }, follow_redirects=True)
+    assert created.status_code == 200
+    assert b"Sports Day" in created.data
+    assert b"Item added" in created.data
+
+    with website.db_connect() as connection:
+        item_id = connection.execute("SELECT id FROM content_items WHERE section = 'news'").fetchone()["id"]
+
+    edited = client.post(f"/admin/sections/news?edit={item_id}", data={
+        "action": "update", "item_id": str(item_id), "title": "Updated Sports Day",
+        "description": "New event details"
+    }, follow_redirects=True)
+    assert edited.status_code == 200
+    assert b"Updated Sports Day" in edited.data
+
+    public_page = client.get("/news")
+    assert b"Updated Sports Day" in public_page.data
+
+    deleted = client.post("/admin/sections/news", data={
+        "action": "delete", "item_id": str(item_id)
+    }, follow_redirects=True)
+    assert deleted.status_code == 200
+    assert b"Updated Sports Day" not in deleted.data
+
+
+def test_admin_can_upload_learning_material(client):
+    from io import BytesIO
+
+    client.post("/admin/login", data={"username": "test-admin", "password": "test-password"})
+    response = client.post("/admin/sections/resources", data={
+        "title": "Form 4 Revision", "description": "Mathematics revision paper",
+        "file": (BytesIO(b"%PDF-test-content"), "revision.pdf")
+    }, content_type="multipart/form-data", follow_redirects=True)
+    assert response.status_code == 200
+    assert b"Form 4 Revision" in response.data
+    assert b"Open / download file" in client.get("/academics").data
+
+
+def test_editor_cannot_manage_sensitive_admin_sections(client):
+    client.post("/admin/sections/users", data={
+        "username": "limited-editor", "password": "long-secure-password",
+        "role": "editor"
+    })
+    client.get("/admin/logout")
+    login = client.post("/admin/login", data={
+        "username": "limited-editor", "password": "long-secure-password"
+    })
+    assert login.status_code == 302
+    assert client.get("/admin/sections/users").status_code == 403
+    assert client.get("/admin/sections/payments").status_code == 403
