@@ -55,6 +55,10 @@ def init_admin_storage():
             role TEXT NOT NULL DEFAULT 'admin',
             created_at TEXT NOT NULL
         )""")
+        connection.execute("""CREATE TABLE IF NOT EXISTS site_settings (
+            setting_key TEXT PRIMARY KEY,
+            setting_value TEXT NOT NULL DEFAULT ''
+        )""")
 
 
 init_admin_storage()
@@ -84,6 +88,39 @@ def remove_upload(relative_path):
     upload_root = os.path.abspath(app.config["UPLOAD_FOLDER"])
     if destination.startswith(upload_root + os.sep) and os.path.isfile(destination):
         os.remove(destination)
+
+
+def get_saved_setting(key, fallback=""):
+    with db_connect() as connection:
+        row = connection.execute("SELECT setting_value FROM site_settings WHERE setting_key = ?", (key,)).fetchone()
+    return row["setting_value"] if row else fallback
+
+
+def save_settings(values):
+    with db_connect() as connection:
+        for key, value in values.items():
+            connection.execute(
+                "INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?) "
+                "ON CONFLICT(setting_key) DO UPDATE SET setting_value = excluded.setting_value",
+                (key, value.strip())
+            )
+
+
+def current_school():
+    school = dict(SCHOOL)
+    for key in school:
+        school[key] = get_saved_setting("school." + key, school[key])
+    return school
+
+
+def current_payment_info():
+    import copy
+    info = copy.deepcopy(PAYMENT_INFO)
+    for method, fields in info.items():
+        for key, value in fields.items():
+            if isinstance(value, str):
+                fields[key] = get_saved_setting("payment." + method + "." + key, value)
+    return info
 
 
 # ============================================================
@@ -544,7 +581,7 @@ def about():
         school_updates = connection.execute(
             "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("school",)
         ).fetchall()
-    return render_template("about.html", school=SCHOOL, school_updates=school_updates)
+    return render_template("about.html", school=current_school(), school_updates=school_updates)
 
 
 @app.route("/academics")
@@ -598,7 +635,7 @@ def fees():
         payment_updates = connection.execute(
             "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", ("payments",)
         ).fetchall()
-    return render_template("fees.html", school=SCHOOL, payment_info=PAYMENT_INFO, payment_updates=payment_updates)
+    return render_template("fees.html", school=current_school(), payment_info=current_payment_info(), payment_updates=payment_updates)
 
 
 # ============================================================
@@ -895,6 +932,23 @@ def admin_section(section_key):
 
     if request.method == "POST":
         action = request.form.get("action", "create")
+        if action == "save-config" and section_key == "school":
+            allowed_fields = ("name", "full_name", "county", "sub_county", "region", "type", "cluster", "knec", "uic", "phone", "email", "principal")
+            save_settings({"school." + key: request.form.get(key, "") for key in allowed_fields})
+            flash("School profile settings saved and applied to the public About page.", "success")
+            return redirect(url_for("admin_section", section_key="school"))
+        if action == "save-config" and section_key == "payments":
+            fields = {
+                "mpesa.paybill": request.form.get("mpesa_paybill", ""),
+                "kcb.account_number": request.form.get("kcb_account_number", ""),
+                "bank.bank_name": request.form.get("bank_name", ""),
+                "bank.account_name": request.form.get("bank_account_name", ""),
+                "bank.account_number": request.form.get("bank_account_number", ""),
+                "bank.branch": request.form.get("bank_branch", ""),
+            }
+            save_settings({"payment." + key: value for key, value in fields.items()})
+            flash("Payment settings saved. Verify every account detail before publishing it.", "success")
+            return redirect(url_for("admin_section", section_key="payments"))
         if action == "delete":
             item_id = request.form.get("item_id", type=int)
             with db_connect() as connection:
@@ -944,7 +998,9 @@ def admin_section(section_key):
     with db_connect() as connection:
         items = connection.execute("SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", (section_key,)).fetchall()
         edit_item = connection.execute("SELECT * FROM content_items WHERE id = ? AND section = ?", (edit_id, section_key)).fetchone() if edit_id else None
-    return render_template("admin_section.html", section=section, section_key=section_key, items=items, edit_item=edit_item, users=[])
+    school_config = current_school() if section_key == "school" else {}
+    payment_config = current_payment_info() if section_key == "payments" else {}
+    return render_template("admin_section.html", section=section, section_key=section_key, items=items, edit_item=edit_item, users=[], school_config=school_config, payment_config=payment_config)
 
 
 
