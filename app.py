@@ -1,13 +1,79 @@
 import os
 import secrets
+import sqlite3
+from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
 # Keep sessions working locally even when SECRET_KEY has not been configured.
 # Set SECRET_KEY in Render for a stable production session key across restarts/workers.
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024
+app.config["DATABASE_PATH"] = os.environ.get("DATABASE_PATH") or os.path.join(app.instance_path, "school_admin.db")
+app.config["UPLOAD_FOLDER"] = os.environ.get("UPLOAD_FOLDER") or os.path.join(app.static_folder, "uploads")
+ALLOWED_UPLOADS = {"pdf", "epub", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "jpg", "jpeg", "png", "webp", "gif"}
+
+
+def db_connect():
+    os.makedirs(os.path.dirname(app.config["DATABASE_PATH"]), exist_ok=True)
+    connection = sqlite3.connect(app.config["DATABASE_PATH"])
+    connection.row_factory = sqlite3.Row
+    return connection
+
+
+def init_admin_storage():
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    with db_connect() as connection:
+        connection.execute("""CREATE TABLE IF NOT EXISTS content_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            section TEXT NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL DEFAULT '',
+            url TEXT NOT NULL DEFAULT '',
+            file_path TEXT NOT NULL DEFAULT '',
+            created_at TEXT NOT NULL
+        )""")
+        connection.execute("""CREATE TABLE IF NOT EXISTS admin_users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'admin',
+            created_at TEXT NOT NULL
+        )""")
+
+
+init_admin_storage()
+
+
+def allowed_upload(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_UPLOADS
+
+
+def save_upload(upload):
+    if not upload or not upload.filename:
+        return ""
+    if not allowed_upload(upload.filename):
+        raise ValueError("That file type is not allowed. Use PDF, EPUB, Office documents, text files or common image formats.")
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    safe_name = secure_filename(upload.filename)
+    stem, extension = os.path.splitext(safe_name)
+    filename = f"{stem[:70]}-{secrets.token_hex(6)}{extension.lower()}"
+    upload.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    return "uploads/" + filename
+
+
+def remove_upload(relative_path):
+    if not relative_path or not relative_path.startswith("uploads/"):
+        return
+    destination = os.path.abspath(os.path.join(app.static_folder, relative_path))
+    upload_root = os.path.abspath(app.config["UPLOAD_FOLDER"])
+    if destination.startswith(upload_root + os.sep) and os.path.isfile(destination):
+        os.remove(destination)
+
 
 # ============================================================
 # SCHOOL INFORMATION
@@ -482,20 +548,22 @@ def academics():
 
 @app.route("/news")
 def news():
-
-    return render_template(
-        "news.html",
-        school=SCHOOL
-    )
+    with db_connect() as connection:
+        news_items = connection.execute(
+            "SELECT * FROM content_items WHERE section IN (?, ?) ORDER BY id DESC",
+            ("news", "announcements")
+        ).fetchall()
+    return render_template("news.html", school=SCHOOL, news_items=news_items)
 
 
 @app.route("/gallery")
 def gallery():
-
-    return render_template(
-        "gallery.html",
-        school=SCHOOL
-    )
+    with db_connect() as connection:
+        gallery_items = connection.execute(
+            "SELECT * FROM content_items WHERE section = ? ORDER BY id DESC",
+            ("gallery",)
+        ).fetchall()
+    return render_template("gallery.html", school=SCHOOL, gallery_items=gallery_items)
 
 
 @app.route("/contact")
@@ -690,14 +758,18 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 def admin_login():
 
     if request.method == "POST":
-
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-
+        username = (request.form.get("username") or "").strip()
+        password = request.form.get("password") or ""
+        with db_connect() as connection:
+            database_user = connection.execute(
+                "SELECT * FROM admin_users WHERE username = ?", (username,)
+            ).fetchone()
+        valid_database_login = bool(database_user and check_password_hash(database_user["password_hash"], password))
+        valid_environment_login = bool(ADMIN_USERNAME and ADMIN_PASSWORD and username == ADMIN_USERNAME and password == ADMIN_PASSWORD)
+        if valid_database_login or valid_environment_login:
             session["admin_logged_in"] = True
-
+            session["admin_username"] = username
+            session["admin_role"] = database_user["role"] if valid_database_login else "admin"
             return redirect(url_for("admin_dashboard"))
 
         return render_template(
@@ -714,13 +786,18 @@ def admin_dashboard():
     if not session.get("admin_logged_in"):
         return redirect(url_for("admin_login"))
 
-    return render_template("admin_dashboard.html")
+    with db_connect() as connection:
+        item_count = connection.execute("SELECT COUNT(*) FROM content_items").fetchone()[0]
+        user_count = connection.execute("SELECT COUNT(*) FROM admin_users").fetchone()[0]
+    return render_template("admin_dashboard.html", item_count=item_count, user_count=user_count)
 
 
 @app.route("/admin/logout")
 def admin_logout():
 
     session.pop("admin_logged_in", None)
+    session.pop("admin_username", None)
+    session.pop("admin_role", None)
     return redirect(url_for("admin_login"))
 
 
@@ -729,86 +806,119 @@ def admin_logout():
 # ============================================================
 
 ADMIN_SECTIONS = {
-    "news": {
-        "title": "Manage News",
-        "description": "Review the school news area and open its public page.",
-        "status": "This destination is connected. News entries are currently written in the website template; a database-backed create/edit/delete workflow has not yet been implemented.",
-        "public_endpoint": "news",
-        "public_label": "news",
-    },
-    "announcements": {
-        "title": "Manage Announcements",
-        "description": "Administration area for school announcements.",
-        "status": "This destination is connected. Announcement storage and publish/unpublish controls still need to be implemented before changes can be saved from this page.",
-        "public_endpoint": "news",
-        "public_label": "news and updates",
-    },
-    "gallery": {
-        "title": "Manage Gallery",
-        "description": "Open the school gallery and manage gallery content.",
-        "status": "This destination is connected to the public gallery. Upload, edit and delete controls are not yet connected to persistent storage.",
-        "public_endpoint": "gallery",
-        "public_label": "gallery",
-    },
-    "resources": {
-        "title": "Manage Learning Resources",
-        "description": "Review learning pathways, subjects and resource categories.",
-        "status": "This destination is connected. The current learning resources are configured in app.py; a form to edit and save resources has not yet been added.",
-        "public_endpoint": "academics",
-        "public_label": "academics",
-    },
-    "payments": {
-        "title": "Manage Payments",
-        "description": "Review the public school payment information page.",
-        "status": "This destination is connected. Official PayBill and bank account fields are still blank in the application. Confirm the official details before publishing them; this page does not process payments.",
-        "public_endpoint": "fees",
-        "public_label": "payments",
-    },
-    "school": {
-        "title": "School Information Settings",
-        "description": "Review the school's public profile and contact information.",
-        "status": "This destination is connected. School details are currently configured in app.py; editable settings and persistent saving have not yet been implemented.",
-        "public_endpoint": "about",
-        "public_label": "school profile",
-    },
-    "pathways": {
-        "title": "Manage Senior School Pathways",
-        "description": "Review the STEM, Social Sciences, and Arts & Sports pathways.",
-        "status": "This destination is connected. Pathway and subject definitions are currently configured in app.py; an editable management form is not yet available.",
-        "public_endpoint": "academics",
-        "public_label": "academics",
-    },
-    "users": {
-        "title": "Manage Users & Accounts",
-        "description": "Administration area for authorised accounts.",
-        "status": "This destination is connected, but user management is not implemented yet. The current application supports one admin credential pair through environment variables; it does not have a user database or role management.",
-        "public_endpoint": None,
-        "public_label": None,
-    },
-    "settings": {
-        "title": "Website Settings",
-        "description": "Review application configuration and admin settings.",
-        "status": "This destination is connected. Runtime configuration is managed through environment variables on the hosting platform; editable settings are not stored from this page.",
-        "public_endpoint": None,
-        "public_label": None,
-    },
+    "news": {"title": "Manage News", "description": "Publish school news stories and updates.", "public_endpoint": "news", "public_label": "news"},
+    "announcements": {"title": "Manage Announcements", "description": "Publish notices for students, parents and staff.", "public_endpoint": "news", "public_label": "announcements"},
+    "gallery": {"title": "Manage Gallery", "description": "Upload school photographs and event images.", "public_endpoint": "gallery", "public_label": "gallery"},
+    "resources": {"title": "Manage Learning Resources", "description": "Upload e-textbooks, books, notes, revision papers, assignments and other learning files.", "public_endpoint": "academics", "public_label": "academics"},
+    "payments": {"title": "Manage Payments", "description": "Store payment notices and verified payment information. Only publish official account details after confirming them with the school.", "public_endpoint": "fees", "public_label": "payments"},
+    "school": {"title": "School Information Settings", "description": "Add and maintain school profile updates, contacts and information notices.", "public_endpoint": "about", "public_label": "school profile"},
+    "pathways": {"title": "Manage Senior School Pathways", "description": "Add pathway information, subjects and curriculum updates.", "public_endpoint": "academics", "public_label": "academics"},
+    "users": {"title": "Manage Users & Accounts", "description": "Create named administrator accounts with password hashes, change account roles, or remove accounts.", "public_endpoint": None, "public_label": None},
+    "settings": {"title": "Website Settings", "description": "Maintain website notices and operational notes. Hosting secrets such as SECRET_KEY remain in Render environment settings.", "public_endpoint": None, "public_label": None},
 }
 
 
-@app.route("/admin/sections/<section_key>")
-def admin_section(section_key):
+def require_admin():
     if not session.get("admin_logged_in"):
         return redirect(url_for("admin_login"))
+    return None
 
+
+@app.route("/admin/sections/<section_key>", methods=["GET", "POST"])
+def admin_section(section_key):
+    denied = require_admin()
+    if denied:
+        return denied
     section = ADMIN_SECTIONS.get(section_key)
     if section is None:
-        return render_template(
-            "404.html",
-            school=SCHOOL,
-            message="The requested admin section was not found."
-        ), 404
+        return render_template("404.html", school=SCHOOL, message="The requested admin section was not found."), 404
 
-    return render_template("admin_section.html", section=section)
+    if section_key == "users":
+        if request.method == "POST":
+            action = request.form.get("action", "create")
+            if action == "delete":
+                user_id = request.form.get("user_id", type=int)
+                with db_connect() as connection:
+                    target = connection.execute("SELECT username FROM admin_users WHERE id = ?", (user_id,)).fetchone()
+                    if target and target["username"] == session.get("admin_username"):
+                        flash("You cannot delete the account currently in use.", "error")
+                    elif target:
+                        connection.execute("DELETE FROM admin_users WHERE id = ?", (user_id,))
+                        flash("Admin account deleted.", "success")
+                return redirect(url_for("admin_section", section_key="users"))
+            username = (request.form.get("username") or "").strip()
+            password = request.form.get("password") or ""
+            role = request.form.get("role") or "editor"
+            if not username or len(password) < 10:
+                flash("Enter a username and a password of at least 10 characters.", "error")
+            else:
+                try:
+                    with db_connect() as connection:
+                        connection.execute(
+                            "INSERT INTO admin_users (username, password_hash, role, created_at) VALUES (?, ?, ?, ?)",
+                            (username, generate_password_hash(password), role if role in ("admin", "editor") else "editor", datetime.utcnow().isoformat(timespec="seconds"))
+                        )
+                    flash("Admin account created. Save the credentials securely.", "success")
+                except sqlite3.IntegrityError:
+                    flash("That username already exists.", "error")
+                return redirect(url_for("admin_section", section_key="users"))
+        with db_connect() as connection:
+            users = connection.execute("SELECT id, username, role, created_at FROM admin_users ORDER BY id DESC").fetchall()
+        return render_template("admin_section.html", section=section, section_key=section_key, items=[], edit_item=None, users=users)
+
+    if request.method == "POST":
+        action = request.form.get("action", "create")
+        if action == "delete":
+            item_id = request.form.get("item_id", type=int)
+            with db_connect() as connection:
+                item = connection.execute("SELECT file_path FROM content_items WHERE id = ? AND section = ?", (item_id, section_key)).fetchone()
+                if item:
+                    connection.execute("DELETE FROM content_items WHERE id = ? AND section = ?", (item_id, section_key))
+                    remove_upload(item["file_path"])
+                    flash("Item deleted.", "success")
+            return redirect(url_for("admin_section", section_key=section_key))
+        item_id = request.form.get("item_id", type=int) if action == "update" else None
+        title = (request.form.get("title") or "").strip()
+        description = (request.form.get("description") or "").strip()
+        url = (request.form.get("url") or "").strip()
+        upload = request.files.get("file")
+        if not title:
+            flash("A title is required.", "error")
+        else:
+            try:
+                uploaded_path = save_upload(upload)
+                with db_connect() as connection:
+                    if action == "update" and item_id:
+                        existing = connection.execute("SELECT file_path FROM content_items WHERE id = ? AND section = ?", (item_id, section_key)).fetchone()
+                        if not existing:
+                            flash("That item was not found.", "error")
+                            if uploaded_path:
+                                remove_upload(uploaded_path)
+                            return redirect(url_for("admin_section", section_key=section_key))
+                        file_path = uploaded_path or existing["file_path"]
+                        connection.execute(
+                            "UPDATE content_items SET title = ?, description = ?, url = ?, file_path = ? WHERE id = ? AND section = ?",
+                            (title, description, url, file_path, item_id, section_key)
+                        )
+                        if uploaded_path and existing["file_path"]:
+                            remove_upload(existing["file_path"])
+                        flash("Changes saved.", "success")
+                    else:
+                        connection.execute(
+                            "INSERT INTO content_items (section, title, description, url, file_path, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                            (section_key, title, description, url, uploaded_path, datetime.utcnow().isoformat(timespec="seconds"))
+                        )
+                        flash("Item added.", "success")
+            except ValueError as error:
+                flash(str(error), "error")
+            return redirect(url_for("admin_section", section_key=section_key))
+
+    edit_id = request.args.get("edit", type=int)
+    with db_connect() as connection:
+        items = connection.execute("SELECT * FROM content_items WHERE section = ? ORDER BY id DESC", (section_key,)).fetchall()
+        edit_item = connection.execute("SELECT * FROM content_items WHERE id = ? AND section = ?", (edit_id, section_key)).fetchone() if edit_id else None
+    return render_template("admin_section.html", section=section, section_key=section_key, items=items, edit_item=edit_item, users=[])
+
 
 
 # ============================================================
