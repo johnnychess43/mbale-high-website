@@ -2,6 +2,25 @@
 
 {% block title %}
 Academics | {{ school.name }}
+{% if learning_items %}
+<section class="section">
+    <div class="section-heading">
+        <p class="eyebrow">LEARNING LIBRARY</p>
+        <h2>Books, E-textbooks & Revision Materials</h2>
+        <p>Learning files uploaded by the school.</p>
+    </div>
+    <div class="news-grid">
+        {% for item in learning_items %}
+        <article class="news-card">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+            {% if item.file_path %}<p><a href="{{ url_for('static', filename=item.file_path) }}" target="_blank" rel="noopener">Open / download file ↗</a></p>{% endif %}
+            {% if item.url %}<p><a href="{{ item.url }}" target="_blank" rel="noopener">Open online resource ↗</a></p>{% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
 {% endblock %}
 
 {% block content %}
