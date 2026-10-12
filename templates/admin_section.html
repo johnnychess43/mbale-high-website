@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} | Admin | Friends School Mbale{% endblock %}
+
+{% block content %}
+<section class="section" style="max-width: 1050px; margin: 0 auto; padding: 32px 18px;">
+    <p class="eyebrow">ADMINISTRATION PORTAL</p>
+    <h1 style="color:#063970;">{{ section.title }}</h1>
+    <p>{{ section.description }}</p>
+
+    <div style="background:#fff; border:1px solid #dbe4ef; border-radius:14px; padding:22px; margin:24px 0; box-shadow:0 5px 18px rgba(0,0,0,.06);">
+        <h2 style="margin-top:0; color:#063970;">Section overview</h2>
+        <p>{{ section.status }}</p>
+        {% if section.public_endpoint %}
+        <p><a href="{{ url_for(section.public_endpoint) }}">Open the public {{ section.public_label }} page ↗</a></p>
+        {% endif %}
+    </div>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
+        <a href="{{ url_for('admin_dashboard') }}" style="display:inline-block; background:#063970; color:#fff; text-decoration:none; padding:12px 18px; border-radius:8px; font-weight:700;">← Back to Dashboard</a>
+        <a href="{{ url_for('admin_logout') }}" style="display:inline-block; background:#b42318; color:#fff; text-decoration:none; padding:12px 18px; border-radius:8px; font-weight:700;">Logout</a>
+    </div>
+</section>
+{% endblock %}
