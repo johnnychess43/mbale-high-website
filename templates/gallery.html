@@ -23,6 +23,17 @@ Gallery | {{ school.name }}
 <section class="section">
 
     <div class="gallery-grid">
+        {% for item in gallery_items %}
+        <div class="gallery-item photo-item">
+            {% if item.file_path and item.file_path.lower().endswith(('.png','.jpg','.jpeg','.webp','.gif')) %}
+            <img src="{{ url_for('static', filename=item.file_path) }}" alt="{{ item.title }}">
+            {% else %}<div class="gallery-placeholder"><span>🖼️</span></div>{% endif %}
+            <div class="gallery-caption"><h3>{{ item.title }}</h3><p>{{ item.description }}</p>
+            {% if item.url %}<a href="{{ item.url }}" target="_blank" rel="noopener">View more ↗</a>{% endif %}
+            {% if item.file_path and not item.file_path.lower().endswith(('.png','.jpg','.jpeg','.webp','.gif')) %}<a href="{{ url_for('static', filename=item.file_path) }}" target="_blank" rel="noopener">Open attachment ↗</a>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
 
         <!-- SCHOOL CAMPUS -->
         <div class="gallery-item photo-item">
