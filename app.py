@@ -4,7 +4,11 @@ from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get("SECRET_KEY")
+import secrets
+
+# Keep sessions working locally even when SECRET_KEY has not been configured.
+# Set SECRET_KEY in Render for a stable production session key across restarts/workers.
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 
 # ============================================================
 # SCHOOL INFORMATION
