@@ -723,6 +723,94 @@ def admin_logout():
     session.pop("admin_logged_in", None)
     return redirect(url_for("admin_login"))
 
+
+# ============================================================
+# ADMIN DASHBOARD SECTIONS
+# ============================================================
+
+ADMIN_SECTIONS = {
+    "news": {
+        "title": "Manage News",
+        "description": "Review the school news area and open its public page.",
+        "status": "This destination is connected. News entries are currently written in the website template; a database-backed create/edit/delete workflow has not yet been implemented.",
+        "public_endpoint": "news",
+        "public_label": "news",
+    },
+    "announcements": {
+        "title": "Manage Announcements",
+        "description": "Administration area for school announcements.",
+        "status": "This destination is connected. Announcement storage and publish/unpublish controls still need to be implemented before changes can be saved from this page.",
+        "public_endpoint": "news",
+        "public_label": "news and updates",
+    },
+    "gallery": {
+        "title": "Manage Gallery",
+        "description": "Open the school gallery and manage gallery content.",
+        "status": "This destination is connected to the public gallery. Upload, edit and delete controls are not yet connected to persistent storage.",
+        "public_endpoint": "gallery",
+        "public_label": "gallery",
+    },
+    "resources": {
+        "title": "Manage Learning Resources",
+        "description": "Review learning pathways, subjects and resource categories.",
+        "status": "This destination is connected. The current learning resources are configured in app.py; a form to edit and save resources has not yet been added.",
+        "public_endpoint": "academics",
+        "public_label": "academics",
+    },
+    "payments": {
+        "title": "Manage Payments",
+        "description": "Review the public school payment information page.",
+        "status": "This destination is connected. Official PayBill and bank account fields are still blank in the application. Confirm the official details before publishing them; this page does not process payments.",
+        "public_endpoint": "fees",
+        "public_label": "payments",
+    },
+    "school": {
+        "title": "School Information Settings",
+        "description": "Review the school's public profile and contact information.",
+        "status": "This destination is connected. School details are currently configured in app.py; editable settings and persistent saving have not yet been implemented.",
+        "public_endpoint": "about",
+        "public_label": "school profile",
+    },
+    "pathways": {
+        "title": "Manage Senior School Pathways",
+        "description": "Review the STEM, Social Sciences, and Arts & Sports pathways.",
+        "status": "This destination is connected. Pathway and subject definitions are currently configured in app.py; an editable management form is not yet available.",
+        "public_endpoint": "academics",
+        "public_label": "academics",
+    },
+    "users": {
+        "title": "Manage Users & Accounts",
+        "description": "Administration area for authorised accounts.",
+        "status": "This destination is connected, but user management is not implemented yet. The current application supports one admin credential pair through environment variables; it does not have a user database or role management.",
+        "public_endpoint": None,
+        "public_label": None,
+    },
+    "settings": {
+        "title": "Website Settings",
+        "description": "Review application configuration and admin settings.",
+        "status": "This destination is connected. Runtime configuration is managed through environment variables on the hosting platform; editable settings are not stored from this page.",
+        "public_endpoint": None,
+        "public_label": None,
+    },
+}
+
+
+@app.route("/admin/sections/<section_key>")
+def admin_section(section_key):
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    section = ADMIN_SECTIONS.get(section_key)
+    if section is None:
+        return render_template(
+            "404.html",
+            school=SCHOOL,
+            message="The requested admin section was not found."
+        ), 404
+
+    return render_template("admin_section.html", section=section)
+
+
 # ============================================================
 # RUN WEBSITE
 # ============================================================
