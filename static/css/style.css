@@ -83,36 +83,54 @@ body {
 }
 
 
-/* Navigation menu */
-
+/* Hamburger dropdown menu: hidden until the three-line button is clicked */
 .nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: min(100%, 360px);
+    max-height: calc(100vh - 82px);
+    overflow-y: auto;
+    background: linear-gradient(180deg, var(--mbale-black), var(--mbale-blue-deep) 70%, var(--mbale-blue));
+    border: 1px solid var(--mbale-blue);
+    border-top: 2px solid var(--mbale-blue);
+    border-radius: 0 0 12px 0;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-left: 0;
+    padding: 10px 0;
+    z-index: 1001;
+}
 
-    margin-left: 25px;
+.nav-menu.active {
+    display: flex;
 }
 
 .nav-menu a {
-    color: white;
+    display: block;
+    width: 100%;
+    color: var(--mbale-white);
     text-decoration: none;
-
     font-size: 15px;
     font-weight: 600;
-
-    transition: 0.3s;
+    padding: 12px 22px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.nav-menu a:hover {
-    color: #8DBBFF;
+.nav-menu a:hover,
+.nav-menu a:focus-visible {
+    color: var(--mbale-white);
+    background: var(--mbale-blue);
 }
 
 .nav-menu a:focus-visible,
 .menu-toggle:focus-visible {
     outline: 2px solid #8DBBFF;
-    outline-offset: 4px;
+    outline-offset: 2px;
 }
-
 
 /* =========================================================
    MAIN
@@ -652,33 +670,6 @@ footer a:hover {
    ========================================================= */
 
 @media (max-width: 900px) {
-
-    .nav-menu {
-        position: absolute;
-
-        top: 72px;
-        left: 0;
-
-        width: 100%;
-
-        background: linear-gradient(180deg, var(--mbale-black), var(--mbale-blue-deep) 70%, var(--mbale-blue));
-
-        border-top: 2px solid var(--mbale-blue);
-
-        display: none;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        padding: 25px 8%;
-
-        gap: 20px;
-    }
-
-    .nav-menu.active {
-        display: flex;
-    }
 
     .pathway-grid,
     .info-grid {
