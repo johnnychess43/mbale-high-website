@@ -804,14 +804,14 @@ def sitemap():
 
     # Remove duplicates while preserving order.
     pages = list(dict.fromkeys(pages))
-    url_entries = "\\n".join(
+    url_entries = "\n".join(
         f"  <url><loc>{escape(page)}</loc></url>" for page in pages
     )
     xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n'
-        f'{url_entries}\\n'
-        '</urlset>\\n'
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'{url_entries}\n'
+        '</urlset>\n'
     )
     return Response(xml, mimetype="application/xml")
 
@@ -820,9 +820,9 @@ def sitemap():
 def robots_txt():
     """Tell search crawlers where the sitemap is located."""
     body = (
-        "User-agent: *\\n"
-        "Allow: /\\n"
-        "Sitemap: https://mbale-high-website-1.onrender.com/sitemap.xml\\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Sitemap: https://mbale-high-website-1.onrender.com/sitemap.xml\n"
     )
     return Response(body, mimetype="text/plain")
 
