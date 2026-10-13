@@ -773,57 +773,56 @@ def learning_resource_page(
 
 @app.route("/sitemap.xml")
 def sitemap():
-    """Generate an XML sitemap for public, indexable website pages."""
+    """Generate an XML sitemap using the canonical HTTPS site URL."""
+    site_base = "https://mbale-high-website-1.onrender.com"
     pages = [
-        url_for("home", _external=True),
-        url_for("about", _external=True),
-        url_for("academics", _external=True),
-        url_for("news", _external=True),
-        url_for("gallery", _external=True),
-        url_for("contact", _external=True),
-        url_for("fees", _external=True),
+        site_base + url_for("home"),
+        site_base + url_for("about"),
+        site_base + url_for("academics"),
+        site_base + url_for("news"),
+        site_base + url_for("gallery"),
+        site_base + url_for("contact"),
+        site_base + url_for("fees"),
     ]
 
     # Include the public senior-school pathway, subject and resource pages.
     for pathway_key, pathway in PATHWAYS.items():
-        pages.append(url_for("pathway_page", pathway_key=pathway_key, _external=True))
+        pages.append(site_base + url_for("pathway_page", pathway_key=pathway_key))
         for subject_key in pathway["subjects"]:
-            pages.append(url_for(
+            pages.append(site_base + url_for(
                 "subject_page",
                 pathway_key=pathway_key,
                 subject_key=subject_key,
-                _external=True,
             ))
             for resource_key in RESOURCE_TYPES:
-                pages.append(url_for(
+                pages.append(site_base + url_for(
                     "learning_resource_page",
                     pathway_key=pathway_key,
                     subject_key=subject_key,
                     resource_key=resource_key,
-                    _external=True,
                 ))
 
     # Remove duplicates while preserving order.
     pages = list(dict.fromkeys(pages))
-    url_entries = "\n".join(
+    url_entries = "\\n".join(
         f"  <url><loc>{escape(page)}</loc></url>" for page in pages
     )
     xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f'{url_entries}\n'
-        '</urlset>\n'
+        '<?xml version="1.0" encoding="UTF-8"?>\\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n'
+        f'{url_entries}\\n'
+        '</urlset>\\n'
     )
     return Response(xml, mimetype="application/xml")
 
 
 @app.route("/robots.txt")
 def robots_txt():
-    """Tell search crawlers they may access public pages and where to find the sitemap."""
+    """Tell search crawlers where the sitemap is located."""
     body = (
-        "User-agent: *\n"
-        "Allow: /\n"
-        f"Sitemap: {url_for('sitemap', _external=True)}\n"
+        "User-agent: *\\n"
+        "Allow: /\\n"
+        "Sitemap: https://mbale-high-website-1.onrender.com/sitemap.xml\\n"
     )
     return Response(body, mimetype="text/plain")
 
