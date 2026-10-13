@@ -1,7 +1,13 @@
 /* =========================================================
    FRIENDS SCHOOL MBALE
-   MAIN WEBSITE STYLES
+   MAIN WEBSITE STYLES — BLUE & BLACK BRAND PALETTE
    ========================================================= */
+:root {
+    --mbale-blue: #123B70;
+    --mbale-blue-deep: #071D3B;
+    --mbale-black: #050505;
+    --mbale-white: #FFFFFF;
+}
 
 * {
     margin: 0;
@@ -32,7 +38,7 @@ body {
     width: 100%;
     height: 72px;
 
-    background: rgba(5, 25, 55, 0.96);
+    background: linear-gradient(100deg, var(--mbale-black) 0%, var(--mbale-blue-deep) 58%, var(--mbale-blue) 100%);
     backdrop-filter: blur(12px);
 
     display: flex;
@@ -42,7 +48,8 @@ body {
 
     z-index: 1000;
 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    border-bottom: 2px solid var(--mbale-blue);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
 }
 
 
@@ -52,8 +59,9 @@ body {
     width: 45px;
     height: 45px;
 
-    border: none;
-    background: transparent;
+    border: 1px solid var(--mbale-blue);
+    border-radius: 8px;
+    background: var(--mbale-black);
 
     display: flex;
     flex-direction: column;
@@ -67,7 +75,7 @@ body {
     width: 26px;
     height: 3px;
 
-    background: #ffffff;
+    background: var(--mbale-white);
 
     border-radius: 5px;
 
@@ -96,7 +104,13 @@ body {
 }
 
 .nav-menu a:hover {
-    color: #f4c542;
+    color: #8DBBFF;
+}
+
+.nav-menu a:focus-visible,
+.menu-toggle:focus-visible {
+    outline: 2px solid #8DBBFF;
+    outline-offset: 4px;
 }
 
 
@@ -647,7 +661,9 @@ footer a:hover {
 
         width: 100%;
 
-        background: #071d3b;
+        background: linear-gradient(180deg, var(--mbale-black), var(--mbale-blue-deep) 70%, var(--mbale-blue));
+
+        border-top: 2px solid var(--mbale-blue);
 
         display: none;
 
