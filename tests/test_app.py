@@ -212,7 +212,7 @@ def test_school_assistant_answers_public_topics(client):
 
 
 def test_school_assistant_does_not_invent_unpublished_details(client):
-    response = client.post("/api/assistant", json={"message": "What is the principal's private phone number?"})
+    response = client.post("/api/assistant", json={"message": "Can you guarantee my exam results next year?"})
     assert response.status_code == 200
     assert b"contact the school directly" in response.data
 
