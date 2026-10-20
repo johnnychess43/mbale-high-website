@@ -68,6 +68,17 @@
 
     <script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
 
+
+    <section id="school-assistant" class="school-assistant" aria-label="School information assistant">
+      <button id="assistant-toggle" class="assistant-toggle" type="button" aria-expanded="false" aria-controls="assistant-panel">Ask School Assistant</button>
+      <div id="assistant-panel" class="assistant-panel" hidden>
+        <div class="assistant-heading"><strong>School Assistant</strong><button id="assistant-close" type="button" aria-label="Close assistant">×</button></div>
+        <p class="assistant-note">Answers are based on public information on this website. Do not enter student or private information.</p>
+        <div id="assistant-answer" class="assistant-answer" aria-live="polite">Hello! Ask about academics, resources, fees, news or contacts.</div>
+        <form id="assistant-form"><label for="assistant-message">Your question</label><input id="assistant-message" name="message" maxlength="500" required placeholder="How do I find learning resources?"><button type="submit">Ask</button></form>
+      </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/assistant.js') }}" defer></script>
 </body>
 
 </html>
