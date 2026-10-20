@@ -4,7 +4,7 @@ import sqlite3
 from contextlib import contextmanager
 from datetime import datetime
 
-from flask import Flask, Response, render_template, request, redirect, url_for, session, flash
+from flask import Flask, Response, render_template, request, redirect, url_for, session, flash, jsonify
 from xml.sax.saxutils import escape
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -14,10 +14,27 @@ app = Flask(__name__)
 # Keep sessions working locally even when SECRET_KEY has not been configured.
 # Set SECRET_KEY in Render for a stable production session key across restarts/workers.
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = os.environ.get("COOKIE_SECURE", "false").lower() == "true"
 app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024
 app.config["DATABASE_PATH"] = os.environ.get("DATABASE_PATH") or os.path.join(app.instance_path, "school_admin.db")
 app.config["UPLOAD_FOLDER"] = os.environ.get("UPLOAD_FOLDER") or os.path.join(app.static_folder, "uploads")
 ALLOWED_UPLOADS = {"pdf", "epub", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "jpg", "jpeg", "png", "webp", "gif"}
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.setdefault("Content-Security-Policy", "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;")
+    if request.path.startswith("/admin"):
+        response.headers.setdefault("Cache-Control", "no-store")
+        response.headers.setdefault("Pragma", "no-cache")
+    return response
+
 
 
 @contextmanager
@@ -770,6 +787,32 @@ def learning_resource_page(
 # ============================================================
 # SEARCH ENGINE DISCOVERY: SITEMAP AND ROBOTS.TXT
 # ============================================================
+
+
+# Public-information assistant. Answers are grounded in this site's published pages only.
+SCHOOL_ASSISTANT_KB = [
+    (("fee", "fees", "pay", "payment", "mpesa", "bank", "account"), "Please visit the Fees & Payments page for the school's currently published payment guidance. Confirm payment details directly with the school before sending money.", "/fees"),
+    (("academic", "academics", "subject", "subjects", "pathway", "pathways", "cbc", "curriculum"), "Explore the Academics page for senior-school pathways, subjects and learning resources.", "/academics"),
+    (("news", "announcement", "announcements", "event", "events"), "The News page contains published school updates and announcements.", "/news"),
+    (("gallery", "photo", "photos", "pictures"), "Visit the Gallery to view published school photographs.", "/gallery"),
+    (("contact", "phone", "email", "reach", "address", "location"), "Please use the Contact page for the school's published contact information.", "/contact"),
+    (("school", "about", "principal", "mission", "history"), "The About page contains the school's published profile and information.", "/about"),
+    (("resource", "resources", "revision", "notes", "textbook", "textbooks", "learning"), "Visit Academics to browse available learning resources. Ask a teacher or the school if a resource is missing.", "/academics"),
+]
+
+@app.post("/api/assistant")
+def school_assistant():
+    payload = request.get_json(silent=True) or {}
+    question = str(payload.get("message", "")).strip()
+    if not question or len(question) > 500:
+        return jsonify({"answer": "Please ask a short question of up to 500 characters.", "link": None}), 400
+    lowered = question.casefold()
+    for keywords, answer, path in SCHOOL_ASSISTANT_KB:
+        if any(keyword in lowered for keyword in keywords):
+            return jsonify({"answer": answer, "link": url_for("home")[:-1] + path if url_for("home").endswith("/") else path})
+    return jsonify({"answer": "I can help with published information about academics, learning resources, fees, news, the gallery and school contacts. For anything not listed on this website, please contact the school directly.", "link": url_for("contact")})
+
+
 
 @app.route("/sitemap.xml")
 def sitemap():

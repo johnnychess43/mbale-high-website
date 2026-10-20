@@ -98,7 +98,7 @@ def test_all_admin_sections_render_after_login(client):
     for section_key, section in website.ADMIN_SECTIONS.items():
         response = client.get(f"/admin/sections/{section_key}")
         assert response.status_code == 200, section_key
-        assert section["title"].encode() in response.data
+        assert section["title"].replace("&", "&amp;").encode() in response.data
         assert b"Back to Dashboard" in response.data
 
 
@@ -202,3 +202,28 @@ def test_school_profile_and_payment_settings_save_to_public_pages(client):
     public_fees = client.get("/fees")
     assert b"123456" in public_fees.data
     assert b"KCB123" in public_fees.data
+
+
+def test_school_assistant_answers_public_topics(client):
+    response = client.post("/api/assistant", json={"message": "Where can I find learning resources?"})
+    assert response.status_code == 200
+    assert b"Academics" in response.data
+    assert response.json["link"] == "/academics"
+
+
+def test_school_assistant_does_not_invent_unpublished_details(client):
+    response = client.post("/api/assistant", json={"message": "Can you guarantee my exam results next year?"})
+    assert response.status_code == 200
+    assert b"contact the school directly" in response.data
+
+
+def test_school_assistant_rejects_empty_or_long_messages(client):
+    assert client.post("/api/assistant", json={"message": ""}).status_code == 400
+    assert client.post("/api/assistant", json={"message": "x" * 501}).status_code == 400
+
+
+def test_security_headers_are_present(client):
+    response = client.get("/")
+    assert response.headers["X-Content-Type-Options"] == "nosniff"
+    assert response.headers["X-Frame-Options"] == "DENY"
+    assert response.headers["Referrer-Policy"] == "strict-origin-when-cross-origin"

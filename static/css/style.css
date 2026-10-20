@@ -2838,3 +2838,16 @@ body {
     color: #071a33;
     text-decoration: none;
 }
+
+/* School information assistant */
+.school-assistant{position:fixed;right:1.25rem;bottom:1.25rem;z-index:1000;font-family:inherit}
+.assistant-toggle{border:0;border-radius:999px;padding:.9rem 1.2rem;background:#123B70;color:#fff;font-weight:700;box-shadow:0 8px 24px #102b4640;cursor:pointer}
+.assistant-panel{width:min(360px,calc(100vw - 2rem));background:#fff;color:#172033;border:1px solid #d9e2ee;border-radius:16px;padding:1rem;box-shadow:0 18px 50px #102b4630;margin-bottom:.7rem}
+.assistant-heading{display:flex;justify-content:space-between;align-items:center;color:#123B70}
+.assistant-heading button{border:0;background:transparent;font-size:1.5rem;cursor:pointer}
+.assistant-note{font-size:.82rem;color:#586579;line-height:1.4}
+.assistant-answer{background:#f3f7fb;border-radius:10px;padding:.8rem;margin:.8rem 0;line-height:1.5;white-space:pre-wrap}
+#assistant-form{display:grid;gap:.5rem}
+#assistant-form input{width:100%;padding:.7rem;border:1px solid #bdc9d8;border-radius:8px}
+#assistant-form button{border:0;border-radius:8px;padding:.7rem;background:#123B70;color:#fff;font-weight:700;cursor:pointer}
+@media(max-width:480px){.school-assistant{right:.7rem;bottom:.7rem}.assistant-toggle{padding:.8rem 1rem}}
