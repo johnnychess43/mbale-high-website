@@ -98,7 +98,7 @@ def test_all_admin_sections_render_after_login(client):
     for section_key, section in website.ADMIN_SECTIONS.items():
         response = client.get(f"/admin/sections/{section_key}")
         assert response.status_code == 200, section_key
-        assert section["title"].encode() in response.data
+        assert section["title"].replace("&", "&amp;").encode() in response.data
         assert b"Back to Dashboard" in response.data
 
 
